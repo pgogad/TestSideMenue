@@ -1,0 +1,85 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/call_email_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/call_email_txt"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp" />
+
+    <EditText
+        android:id="@+id/call_email_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textEmailAddress">
+        <requestFocus />
+    </EditText>
+    
+    <TextView android:id="@+id/call_email_pwd_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/call_email_pwd"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp" />
+
+    <EditText
+        android:id="@+id/call_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"/>
+ 
+<!--      <TextView android:id="@+id/call_ph_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/call_ph_lbl"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp" />
+
+     <EditText
+         android:id="@+id/call_ph_et"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:ems="10"
+         android:inputType="phone" />
+ -->    
+    <Button android:id="@+id/call_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/call_btn_txt"
+        android:onClick="placeCall"/>
+   
+<!--     <LinearLayout android:id="@+id/call_disclaimers_text"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="horizontal" >
+     </LinearLayout>
+ -->
+
+    <TextView
+        android:id="@+id/call_disclaimers_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:scrollbars="vertical"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"/>
+      
+</LinearLayout>
