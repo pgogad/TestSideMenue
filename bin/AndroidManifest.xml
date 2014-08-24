@@ -4,7 +4,7 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk android:minSdkVersion="16"
+    <uses-sdk android:minSdkVersion="12"
         android:targetSdkVersion="21" />
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -30,8 +30,7 @@
 
         <activity
             android:name="com.test.testsidemenue.MainActivity"
-            android:label="@string/siane"
-            android:parentActivityName="com.test.testsidemenue.GmailNavigation" >
+            android:label="@string/siane">
         </activity>
         <activity
             android:name="com.test.testsidemenue.GmailNavigation"
@@ -44,13 +43,10 @@
         </activity>
         <activity
             android:name="com.test.testsidemenue.CallActivity"
-            android:label="@string/siane"
-            android:parentActivityName="com.test.testsidemenue.GmailNavigation" />
+            android:label="@string/siane"/>
         <activity
             android:name="com.test.testsidemenue.PayPalActivity"
-            android:label="@string/siane"
-            android:parentActivityName="com.test.testsidemenue.GmailNavigation" >
-        </activity>
+            android:label="@string/siane"/>
 
         <service android:name="com.paypal.android.sdk.payments.PayPalService"  android:exported="false" />
         <service android:name="com.test.testsidemenue.runners.TimerServiceIntent" android:exported="false" />

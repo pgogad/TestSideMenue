@@ -25,7 +25,7 @@ public class MonkeyPhone implements Twilio.InitListener
 
 	public MonkeyPhone(Context context)
 	{
-		Twilio.initialize(context, this /* Twilio.InitListener */);
+		Twilio.initialize(context, this);
 	}
 
 	/* Twilio.InitListener method */
@@ -34,8 +34,8 @@ public class MonkeyPhone implements Twilio.InitListener
 	{
 		try
 		{
-			String capabilityToken = HttpHelper.httpGet("http://twilio.webmatrixtech.com/auth.php");
-			device = Twilio.createDevice(capabilityToken, null /* DeviceListener */);
+			String capabilityToken = HttpHelper.httpGet("http://dry-dusk-8611.herokuapp.com/client");
+			device = Twilio.createDevice(capabilityToken, null );
 		}
 		catch (Exception e)
 		{
@@ -46,13 +46,13 @@ public class MonkeyPhone implements Twilio.InitListener
 	public void connect( )
 	{
 		Map<String, String> parameters = new HashMap<String, String>();
-		parameters.put("PhoneNumber", "5127574974");
+		parameters.put("PhoneNumber", "6177759198");
+		parameters.put("timeLimit", "60");
 		connection = device.connect(parameters, null);
 		if (null == connection)
 		{
 			System.out.println("Connection failed....");
 		}
-
 	}
 
 	public void disconnect( )
