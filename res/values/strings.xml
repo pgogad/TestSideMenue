@@ -9,6 +9,7 @@
     <string name="payPalbtn">Add Minutes</string>
     <string name="pic_des">logo</string>
     <string name="call_btn_txt">Call Siane</string>
+    <string name="hang_up_btn">Hangup</string>
     <string name="call_email_txt">Google Voice Email</string>
     <string name="call_email_pwd">Password</string>
     <string name="call_ph_lbl">Phone # registed (Optional)</string>

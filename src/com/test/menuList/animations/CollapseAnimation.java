@@ -4,7 +4,6 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
-import android.webkit.WebView.FindListener;
 
 public class CollapseAnimation extends Animation implements Animation.AnimationListener
 {
