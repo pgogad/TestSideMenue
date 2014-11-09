@@ -1,4 +1,4 @@
-package com.test.menuList.animations;
+package com.advisor.app.animations;
 
 import android.view.ViewGroup.LayoutParams;
 import android.view.View;
@@ -10,8 +10,10 @@ public class ExpandAnimation extends Animation implements Animation.AnimationLis
 	private View view;
 	private static int ANIMATION_DURATION;
 	private int LastWidth;
+	@SuppressWarnings( "unused" )
 	private int FromWidth;
 	private int ToWidth;
+	@SuppressWarnings( "unused" )
 	private static int STEP_SIZE = 30;
 
 	public ExpandAnimation(View v, int FromWidth, int ToWidth, int Duration)

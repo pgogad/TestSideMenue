@@ -3,7 +3,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <TextView
+<!--     <TextView
         android:id="@+id/call_email_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPassword"/>
- 
+ --> 
     <Button android:id="@+id/call_button"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
         android:onClick="hangupCall"
         />
     
-    <TextView
+<!--     <TextView
         android:id="@+id/call_disclaimers_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -70,5 +70,5 @@
         android:layout_marginTop="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp"/>
-      
+ -->      
 </LinearLayout>

@@ -1,5 +1,5 @@
 /** Automatically generated file. DO NOT MODIFY */
-package com.test.testsidemenue;
+package com.advisor.app;
 
 public final class BuildConfig {
     public final static boolean DEBUG = true;

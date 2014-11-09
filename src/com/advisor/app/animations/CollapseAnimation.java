@@ -1,4 +1,4 @@
-package com.test.menuList.animations;
+package com.advisor.app.animations;
 
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -10,9 +10,12 @@ public class CollapseAnimation extends Animation implements Animation.AnimationL
 
 	private View view;
 	private static int ANIMATION_DURATION;
+	@SuppressWarnings( "unused" )
 	private int LastWidth;
+	@SuppressWarnings( "unused" )
 	private int FromWidth;
 	private int ToWidth;
+	@SuppressWarnings( "unused" )
 	private static int STEP_SIZE = 30;
 
 	public CollapseAnimation(View v ,int FromWidth, int ToWidth, int Duration)
