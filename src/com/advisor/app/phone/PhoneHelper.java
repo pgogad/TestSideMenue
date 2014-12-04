@@ -12,6 +12,7 @@ import com.twilio.client.Connection;
 import com.twilio.client.ConnectionListener;
 import com.twilio.client.Device;
 import com.twilio.client.Twilio;
+import com.twilio.client.Connection.State;
 
 public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 {
@@ -40,11 +41,23 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 
 	public void connect()
 	{
+
+		if( null != connection )
+		{
+			State state = connection.getState();
+
+			if( state.equals( State.CONNECTED ) )
+			{
+				connection.disconnect();
+			}
+		}
+
 		Map<String, String> parameters = new HashMap<String, String>();
 		int amount = database.getAvailableMinutes().divide( new BigDecimal( "5.00" ) ).intValueExact();
 
 		parameters.put( "PhoneNumber", HttpHelper.getPhoneNumber() );
 		parameters.put( "timeLimit", String.valueOf( amount * 60 ) );
+
 		connection = device.connect( parameters, this );
 
 		if( null == connection )

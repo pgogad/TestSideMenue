@@ -32,6 +32,7 @@ public final class R {
         public static final int ic_drawer=0x7f020001;
         public static final int ic_launcher=0x7f020002;
         public static final int siane_logo=0x7f020003;
+        public static final int siane_logo_1=0x7f020004;
     }
     public static final class id {
         public static final int TextView01=0x7f0a0003;
@@ -87,6 +88,7 @@ public final class R {
         public static final int call_ph_lbl=0x7f06000b;
         public static final int hang_up_btn=0x7f060008;
         public static final int hello_world=0x7f060002;
+        public static final int option1=0x7f06000c;
         public static final int payPalbtn=0x7f060005;
         public static final int pic_des=0x7f060006;
         public static final int siane=0x7f060004;

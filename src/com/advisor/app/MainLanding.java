@@ -27,7 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.advisor.app.db.AdvisorDB;
-import com.test.testsidemenue.MainActivity;
+
 
 
 public class MainLanding extends Activity
@@ -91,7 +91,7 @@ public class MainLanding extends Activity
 		intro.setX( 10 );
 		intro.setBackgroundColor( Color.YELLOW );
 		intro.setGravity( Gravity.LEFT );
-		intro.setText( "Fast! Accurate! Honest! \n" + "Fast, accurate and honest readings. 22 Plus years experience. I reach deeper than you can imagine!" );
+		intro.setText( "Java Collections Interview Questions \n" + "Index based access allow access of the element directly on the basis of index. " );
 
 		TextView description = new TextView( this );
 
@@ -100,36 +100,44 @@ public class MainLanding extends Activity
 		description.setGravity( Gravity.LEFT );
 
 		StringBuffer buff = new StringBuffer();
+		
+		buff.append("Index based access allow access of the element directly on the basis of index. The cursor of the datastructure can directly goto the 'n' location and get the element. ")
+		.append( "It doesnot traverse through n-1 elements. ")
+		.append( "In Iterator based access, the cursor has to traverse through each element to get the desired element.So to reach the 'n'th element it need to traverse through n-1 elements. ")
+		.append( "Insertion,updation or deletion will be faster for iterator based access if the operations are performed on elements present in between the datastructure. " )
+		.append( "Insertion,updation or deletion will be faster for index based access if the operations are performed on elements present at last of the datastructure. " )
+		.append( "Traversal or search in index based datastructure is faster. " )
+		.append( "ArrayList is index access and LinkedList is iterator access. " );
 
-		buff.append( "My readings are quick, honest and direct. At times, I can see far into timelines, up to 25 years down the road." )
-				.append( "\n\n" )
-				.append( "Throughout the years, I have been privileged to give thousands of readings with the desire to help people with their life struggles." )
-				.append( "Given that I am seasoned, I am also versed in many different skills." )
-				.append( "\n\n" )
-				.append( "I am certified in various techniques that include Life Coaching," )
-				.append(
-						"Personal Development/Career Development both at the Master Level. The aim in my sessions is for you to have full understanding and directness" )
-				.append( "to your concern, with a focus on new options and insights so you may generate your own self healing and wisdom. I go on what I see." )
-				.append( "I can remote view into the present and timeline into the future. I do receive visual imprints as I have 100% photographic memory." )
-				.append(
-						"I am genetically able to see into the future because of my acute ability of memory precision. Please understand that I am clairaudient HOWEVER," )
-				.append(
-						"I do not utilize this in my sessions per choice. I am clairessient and can also tap into the multi-dimensions through a timeline grid I have learned" )
-				.append( "to access. This is a very general overview of what is offered to you." )
-				.append(
-						"Growth is a focus and lately my journey has allowed a new perspective into the way I read - clearer, more precise, dealing less and less on the superficial" )
-				.append(
-						"but more acutely into the root of the matter. What is frivilous is transient (though not without consequence), and I (we) will move beyond that." )
-				.append( "\n\n" )
-				.append( "Please note, I have changed in the way I read and must admit, before my scope to be exact with dates was spot on, and" )
-				.append(
-						"my readings allowed for precise dates and time, however due to a personal transition and pathline shift, I have let go of time....and now give approx." )
-				.append(
-						"as a guideline and do not probe deeper into being exact with dates .... I focus more on healing and soul shifts......my timing will be accurate but my" )
-				.append(
-						"focus is not on exact date precision as it was before. I can still do that but it takes alot of mental energy I now use for deeper soul healing segments." )
-				.append( "This is my personal choice as a reader. Things have stepped up a few notches in the spiritual approach!" ).append( "\n\n" )
-				.append( "Many, Many Blessings to you." ).append( "\n\n" );
+//		buff.append( "My readings are quick, honest and direct. At times, I can see far into timelines, up to 25 years down the road." )
+//				.append( "\n\n" )
+//				.append( "Throughout the years, I have been privileged to give thousands of readings with the desire to help people with their life struggles." )
+//				.append( "Given that I am seasoned, I am also versed in many different skills." )
+//				.append( "\n\n" )
+//				.append( "I am certified in various techniques that include Life Coaching," )
+//				.append(
+//						"Personal Development/Career Development both at the Master Level. The aim in my sessions is for you to have full understanding and directness" )
+//				.append( "to your concern, with a focus on new options and insights so you may generate your own self healing and wisdom. I go on what I see." )
+//				.append( "I can remote view into the present and timeline into the future. I do receive visual imprints as I have 100% photographic memory." )
+//				.append(
+//						"I am genetically able to see into the future because of my acute ability of memory precision. Please understand that I am clairaudient HOWEVER," )
+//				.append(
+//						"I do not utilize this in my sessions per choice. I am clairessient and can also tap into the multi-dimensions through a timeline grid I have learned" )
+//				.append( "to access. This is a very general overview of what is offered to you." )
+//				.append(
+//						"Growth is a focus and lately my journey has allowed a new perspective into the way I read - clearer, more precise, dealing less and less on the superficial" )
+//				.append(
+//						"but more acutely into the root of the matter. What is frivilous is transient (though not without consequence), and I (we) will move beyond that." )
+//				.append( "\n\n" )
+//				.append( "Please note, I have changed in the way I read and must admit, before my scope to be exact with dates was spot on, and" )
+//				.append(
+//						"my readings allowed for precise dates and time, however due to a personal transition and pathline shift, I have let go of time....and now give approx." )
+//				.append(
+//						"as a guideline and do not probe deeper into being exact with dates .... I focus more on healing and soul shifts......my timing will be accurate but my" )
+//				.append(
+//						"focus is not on exact date precision as it was before. I can still do that but it takes alot of mental energy I now use for deeper soul healing segments." )
+//				.append( "This is my personal choice as a reader. Things have stepped up a few notches in the spiritual approach!" ).append( "\n\n" )
+//				.append( "Many, Many Blessings to you." ).append( "\n\n" );
 
 		description.setText( buff.toString() );
 		description.setMaxLines( 30 );
@@ -201,7 +209,7 @@ public class MainLanding extends Activity
 				overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
 				drawerLayout.closeDrawer( drawerListView );
 			}
-			else if( option.equalsIgnoreCase( "Call Siane" ) )
+			else if( option.equalsIgnoreCase( "Call Advisor" ) )
 			{
 				minutes = dataBase.getAvailableMinutes().divide( new BigDecimal( "5.00" ) ).intValueExact();
 				if( Integer.valueOf( minutes ) > 0 )
@@ -218,10 +226,10 @@ public class MainLanding extends Activity
 			}
 			else
 			{
-				Intent intent = new Intent( getBaseContext(), MainActivity.class );
-				startActivity( intent );
-				overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
-				drawerLayout.closeDrawer( drawerListView );
+//				Intent intent = new Intent( getBaseContext(), MainActivity.class );
+//				startActivity( intent );
+//				overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
+//				drawerLayout.closeDrawer( drawerListView );
 			}
 		}
 	}

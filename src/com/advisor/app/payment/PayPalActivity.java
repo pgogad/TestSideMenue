@@ -100,9 +100,6 @@ public class PayPalActivity extends Activity
 		}
 
 		BigDecimal total = new BigDecimal( amount.trim() );
-		//BigDecimal minutes = total.divide( new BigDecimal( "5.00" ) );
-
-		//int min = minutes.intValueExact();
 
 		mins[0] = amount.trim();
 		mins[1] = "0";
@@ -128,7 +125,7 @@ public class PayPalActivity extends Activity
 				{
 					try
 					{
-						Log.i( "paymentExample", confirm.toJSONObject().toString( 4 ) );
+						Log.i( "PayPalActivity", confirm.toJSONObject().toString( 4 ) );
 						// TODO: send 'confirm' to your server for verification
 						// or consent
 						// completion.
@@ -146,7 +143,7 @@ public class PayPalActivity extends Activity
 					}
 					catch( JSONException e )
 					{
-						Log.e( "paymentExample", "an extremely unlikely failure occurred: ", e );
+						Log.e( "PayPalActivity", "an extremely unlikely failure occurred: ", e );
 					}
 				}
 			}

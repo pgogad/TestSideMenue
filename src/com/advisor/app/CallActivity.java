@@ -3,6 +3,7 @@ package com.advisor.app;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -32,7 +33,7 @@ public class CallActivity extends Activity
 		}
 		catch( Exception ex )
 		{
-
+			Log.e( "CallActivity", "Problem while executing hangup", ex );
 		}
 	}
 
