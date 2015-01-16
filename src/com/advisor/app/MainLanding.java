@@ -68,7 +68,9 @@ public class MainLanding extends Activity
 		forDescription.setOrientation( LinearLayout.VERTICAL );
 
 		ImageView logo = new ImageView( this );
-		logo.setImageResource( R.drawable.ic_launcher );
+		
+		logo.setAdjustViewBounds( true );
+		logo.setImageResource( R.drawable.sian_icon );
 
 		logo.setMaxHeight( 200 );
 		logo.setMaxWidth( 200 );

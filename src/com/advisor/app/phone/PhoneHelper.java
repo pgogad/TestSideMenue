@@ -6,6 +6,7 @@ import java.util.Map;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.advisor.app.db.AdvisorDB;
 import com.twilio.client.Connection;
@@ -20,6 +21,8 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 	private Connection connection;
 	private Device device;
 
+	private Context context;
+
 	private String capabilityToken = null;
 
 	private long startTime;
@@ -29,8 +32,13 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 
 	public PhoneHelper(Context context)
 	{
-		database = new AdvisorDB( context );
-		Twilio.initialize( context, this );
+		this.database = new AdvisorDB( context );
+		this.context = context;
+
+		if( !Twilio.isInitialized() )
+		{
+			Twilio.initialize( context, this );
+		}
 	}
 
 	@Override
@@ -55,14 +63,22 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 		Map<String, String> parameters = new HashMap<String, String>();
 		int amount = database.getAvailableMinutes().divide( new BigDecimal( "5.00" ) ).intValueExact();
 
-		parameters.put( "PhoneNumber", HttpHelper.getPhoneNumber() );
-		parameters.put( "timeLimit", String.valueOf( amount * 60 ) );
-
-		connection = device.connect( parameters, this );
-
-		if( null == connection )
+		if( amount < 1 )
 		{
-			Log.e( TAG, "Failed to initialize Twilio " );
+			Toast.makeText( context, "Please buy minutes in order to call Advisor :-)!!", Toast.LENGTH_LONG ).show();
+		}
+		else
+		{
+
+			parameters.put( "PhoneNumber", HttpHelper.getPhoneNumber() );
+			parameters.put( "timeLimit", String.valueOf( amount * 60 ) );
+
+			connection = device.connect( parameters, this );
+
+			if( null == connection )
+			{
+				Log.e( TAG, "Failed to initialize Twilio " );
+			}
 		}
 	}
 
@@ -98,18 +114,34 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 		}
 	}
 
-	@Override
-	protected void finalize()
+	public void destroy()
 	{
-		if( connection != null )
-		{
-			connection.disconnect();
-		}
+		shutDown();
+	}
 
+	private void shutDown()
+	{
 		if( device != null )
 		{
 			device.release();
 		}
+
+		if( null != connection )
+		{
+			connection.disconnect();
+			connection = null;
+		}
+
+		if( Twilio.isInitialized() )
+		{
+			Twilio.shutdown();
+		}
+	}
+
+	@Override
+	protected void finalize()
+	{
+		shutDown();
 	}
 
 	@Override
@@ -168,6 +200,11 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 		if( device != null )
 		{
 			device.release();
+		}
+
+		if( Twilio.isInitialized() )
+		{
+			Twilio.shutdown();
 		}
 	}
 }

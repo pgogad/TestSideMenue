@@ -48,6 +48,12 @@ public class CallActivity extends Activity
 			Toast.makeText( getApplicationContext(), "Call Failed!!", Toast.LENGTH_LONG ).show();
 		}
 	}
+	
+	public void onDestroy()
+	{
+		super.onDestroy();
+		phone.destroy();
+	}
 
 	public void onBackPressed()
 	{
