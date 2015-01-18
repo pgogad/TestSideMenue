@@ -10,10 +10,10 @@ import android.widget.Toast;
 
 import com.advisor.app.db.AdvisorDB;
 import com.twilio.client.Connection;
+import com.twilio.client.Connection.State;
 import com.twilio.client.ConnectionListener;
 import com.twilio.client.Device;
 import com.twilio.client.Twilio;
-import com.twilio.client.Connection.State;
 
 public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 {
@@ -29,6 +29,10 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 	private long endTime;
 
 	private AdvisorDB database;
+	
+//	private HttpHelper helper = new HttpHelper();
+//	
+//	AsyncHttpClient httpClient = new AsyncHttpClient();
 
 	public PhoneHelper(Context context)
 	{
@@ -61,7 +65,8 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 		}
 
 		Map<String, String> parameters = new HashMap<String, String>();
-		int amount = database.getAvailableMinutes().divide( new BigDecimal( "5.00" ) ).intValueExact();
+		
+		int amount = database.getAvailableMinutes().divide( new BigDecimal( HttpHelper.getRates() ) ).intValueExact();
 
 		if( amount < 1 )
 		{
@@ -104,7 +109,7 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 		{
 			if( null == capabilityToken )
 			{
-				capabilityToken = HttpHelper.requestWebService();
+				capabilityToken = HttpHelper.requestWebService();//helper.execute( "token" ).get(100000,TimeUnit.MICROSECONDS);
 				device = Twilio.createDevice( capabilityToken, null );
 			}
 		}

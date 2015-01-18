@@ -1,11 +1,4 @@
-/*
- *  Copyright (c) 2011 by Twilio, Inc., all rights reserved.
- *
- *  Use of this software is subject to the terms and conditions of 
- *  the Twilio Terms of Service located at http://www.twilio.com/legal/tos
- */
-
-package com.advisor.app.phone;
+ package com.advisor.app.phone;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -29,7 +22,7 @@ import org.apache.http.params.HttpConnectionParams;
 
 import android.util.Log;
 
-public abstract class HttpHelper
+public class HttpHelper
 {
 	private static final String TAG = "HttpHelper";
 
@@ -99,6 +92,39 @@ public abstract class HttpHelper
 		}
 	}
 
+	public static String getRates()
+	{
+		try
+		{
+			HttpURLConnection urlConnection = null;
+			URL urlToRequest = new URL("http://dry-dusk-8611.herokuapp.com/rates");
+			urlConnection = (HttpURLConnection) urlToRequest.openConnection();
+			urlConnection.setConnectTimeout(1000 * 20);
+			urlConnection.setRequestMethod("GET");
+			urlConnection.setReadTimeout(1000 * 20);
+			int statusCode = urlConnection.getResponseCode();
+
+			if (statusCode == HttpURLConnection.HTTP_UNAUTHORIZED)
+			{
+				// handle unauthorized (if service requires user login)
+			}
+			else if (statusCode != HttpURLConnection.HTTP_OK)
+			{
+				// handle any other errors, like 404, 500,..
+			}
+
+			InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+			return stringFromInputStream( in );
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+			return null;
+		}
+	}
+
+	
+	
 	private static void ensureHttpClient()
 	{
 		if( httpClient != null )
@@ -139,7 +165,7 @@ public abstract class HttpHelper
 		return out.toString();
 	}
 
-	public static String httpGet( String url ) throws Exception
+	public String httpGet( String url ) throws Exception
 	{
 		ensureHttpClient();
 

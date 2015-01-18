@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -27,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.advisor.app.db.AdvisorDB;
+import com.advisor.app.phone.HttpHelper;
 
 
 
@@ -55,6 +57,9 @@ public class MainLanding extends Activity
 
 		dataBase = new AdvisorDB( this );
 		//minutes = dataBase.getAvailableMinutes().divide( new BigDecimal( "5.00" ) ).intValueExact();
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+		StrictMode.setThreadPolicy( policy );
+
 
 		FrameLayout frame = (FrameLayout) findViewById( R.id.content_frame );
 
@@ -213,7 +218,7 @@ public class MainLanding extends Activity
 			}
 			else if( option.equalsIgnoreCase( "Call Advisor" ) )
 			{
-				minutes = dataBase.getAvailableMinutes().divide( new BigDecimal( "5.00" ) ).intValueExact();
+				minutes = dataBase.getAvailableMinutes().divide( new BigDecimal( HttpHelper.getRates() ) ).intValueExact();
 				if( Integer.valueOf( minutes ) > 0 )
 				{
 					Intent intent = new Intent( getBaseContext(), CallActivity.class );
