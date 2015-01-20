@@ -26,11 +26,10 @@ import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
 import com.paypal.android.sdk.payments.PaymentConfirmation;
 
-
 public class PayPalActivity extends Activity
 {
 	private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_SANDBOX;
-	private static final String CONFIG_CLIENT_ID = "AU_avxBQlYdpx4ssH0La56PRb47b_L4W8Eu13tujoD15bct7zsIoWHLd5vxm";//"pawangogad-facilitator_api1.yahoo.com";//"APP-80W284485P519543T";
+	private static final String CONFIG_CLIENT_ID = "AU_avxBQlYdpx4ssH0La56PRb47b_L4W8Eu13tujoD15bct7zsIoWHLd5vxm";// "pawangogad-facilitator_api1.yahoo.com";//"APP-80W284485P519543T";
 	private static final int REQUEST_CODE_PAYMENT = 1;
 	// private FileManagement file = null;
 	private String[] mins = { "", "", "" };
@@ -134,7 +133,7 @@ public class PayPalActivity extends Activity
 						// for more details.
 						BigDecimal bd = dataBase.getAvailableMinutes();
 						bd = bd.add( new BigDecimal( mins[0] ) );
-						
+
 						dataBase.insertRecord( String.valueOf( bd.doubleValue() ), Long.valueOf( "0" ).longValue(), Long.valueOf( "0" ).longValue() );
 						Toast.makeText( getApplicationContext(), "Payment processed Successfully!!", Toast.LENGTH_LONG ).show();
 						overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
