@@ -196,7 +196,7 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 		BigDecimal amount = database.getAvailableMinutes();
 		BigDecimal chargedAmt = new BigDecimal( String.valueOf( minutes ) );
 
-		amount = amount.subtract( chargedAmt.multiply( new BigDecimal( "5.00" ) ) );
+		amount = amount.subtract( chargedAmt.multiply( new BigDecimal( rates ) ) );
 
 		Log.d( TAG, "Amount remaining : " + amount.toString() + " mins" );
 
