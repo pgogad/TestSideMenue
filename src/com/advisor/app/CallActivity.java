@@ -1,25 +1,39 @@
 package com.advisor.app;
 
+import java.util.concurrent.ExecutionException;
+
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.advisor.app.phone.AsyncHelper;
 import com.advisor.app.phone.PhoneHelper;
 
 public class CallActivity extends Activity
 {
 	private PhoneHelper phone;
-
+	private AsyncHelper asyncHelper;
+	
 	protected void onCreate( Bundle savedInstanceState )
 	{
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.call_activity );
-		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-		StrictMode.setThreadPolicy( policy );
-		phone = new PhoneHelper( getApplicationContext() );
+
+		asyncHelper = new AsyncHelper( this );
+		try
+		{
+			phone = new PhoneHelper( getApplicationContext(), asyncHelper.execute( "call" ).get() );
+		}
+		catch( InterruptedException e )
+		{
+			e.printStackTrace();
+		}
+		catch( ExecutionException e )
+		{
+			e.printStackTrace();
+		}
 	}
 
 	public void hangupCall( View view )
@@ -48,7 +62,7 @@ public class CallActivity extends Activity
 			Toast.makeText( getApplicationContext(), "Call Failed!!", Toast.LENGTH_LONG ).show();
 		}
 	}
-	
+
 	public void onDestroy()
 	{
 		super.onDestroy();

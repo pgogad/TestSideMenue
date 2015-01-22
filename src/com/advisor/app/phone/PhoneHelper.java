@@ -29,15 +29,17 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 	private long endTime;
 
 	private AdvisorDB database;
-	
-//	private HttpHelper helper = new HttpHelper();
-//	
-//	AsyncHttpClient httpClient = new AsyncHttpClient();
+	private String rates;
+	private String phoneNumber;
 
-	public PhoneHelper(Context context)
+	public PhoneHelper(Context context, String[] param)
 	{
 		this.database = new AdvisorDB( context );
 		this.context = context;
+
+		this.capabilityToken = param[0];
+		this.rates = param[1];
+		this.phoneNumber = param[2];
 
 		if( !Twilio.isInitialized() )
 		{
@@ -65,8 +67,8 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 		}
 
 		Map<String, String> parameters = new HashMap<String, String>();
-		
-		int amount = database.getAvailableMinutes().divide( new BigDecimal( HttpHelper.getRates() ) ).intValueExact();
+
+		int amount = database.getAvailableMinutes().divide( new BigDecimal( rates ) ).intValueExact();
 
 		if( amount < 1 )
 		{
@@ -74,8 +76,7 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 		}
 		else
 		{
-
-			parameters.put( "PhoneNumber", HttpHelper.getPhoneNumber() );
+			parameters.put( "PhoneNumber", phoneNumber );
 			parameters.put( "timeLimit", String.valueOf( amount * 60 ) );
 
 			connection = device.connect( parameters, this );
@@ -107,9 +108,8 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 	{
 		try
 		{
-			if( null == capabilityToken )
+			if( null != capabilityToken )
 			{
-				capabilityToken = HttpHelper.requestWebService();//helper.execute( "token" ).get(100000,TimeUnit.MICROSECONDS);
 				device = Twilio.createDevice( capabilityToken, null );
 			}
 		}

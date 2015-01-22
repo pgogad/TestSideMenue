@@ -29,7 +29,8 @@ import com.paypal.android.sdk.payments.PaymentConfirmation;
 public class PayPalActivity extends Activity
 {
 	private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_SANDBOX;
-	private static final String CONFIG_CLIENT_ID = "AU_avxBQlYdpx4ssH0La56PRb47b_L4W8Eu13tujoD15bct7zsIoWHLd5vxm";// "pawangogad-facilitator_api1.yahoo.com";//"APP-80W284485P519543T";
+	private static final String CONFIG_CLIENT_ID = "AboZuBA-iaS7l3ii-ZyDTdkEdO5Eas9BCycr_HTiZ1-uTjICrUVs4mWARVG7";
+	//"AU_avxBQlYdpx4ssH0La56PRb47b_L4W8Eu13tujoD15bct7zsIoWHLd5vxm";// "pawangogad-facilitator_api1.yahoo.com";//"APP-80W284485P519543T";
 	private static final int REQUEST_CODE_PAYMENT = 1;
 	// private FileManagement file = null;
 	private String[] mins = { "", "", "" };
