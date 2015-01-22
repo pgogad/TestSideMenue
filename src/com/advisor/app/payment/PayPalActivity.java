@@ -2,10 +2,11 @@ package com.advisor.app.payment;
 
 import java.math.BigDecimal;
 
-import org.json.JSONException;
-
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -36,6 +37,8 @@ public class PayPalActivity extends Activity
 	private String[] mins = { "", "", "" };
 
 	AdvisorDB dataBase;
+	
+	SharedPreferences sharedpreferences;
 
 	private RadioGroup amountRadio;
 	private EditText amountText;
@@ -47,6 +50,8 @@ public class PayPalActivity extends Activity
 	{
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.pay_pal );
+		
+		sharedpreferences = getSharedPreferences("TheAdvisorApp_PP", Context.MODE_PRIVATE);
 
 		amountRadio = (RadioGroup) findViewById( R.id.amount_options );
 
@@ -125,13 +130,13 @@ public class PayPalActivity extends Activity
 				{
 					try
 					{
-						Log.i( "PayPalActivity", confirm.toJSONObject().toString( 4 ) );
-						// TODO: send 'confirm' to your server for verification
-						// or consent
-						// completion.
-						// see
-						// https://developer.paypal.com/webapps/developer/docs/integration/mobile/verify-mobile-payment/
-						// for more details.
+						Log.i( "Approval", confirm.toJSONObject().toString() );
+						
+						Editor editor = sharedpreferences.edit();
+						editor.putString("PP_APPROVAL", confirm.toJSONObject().toString());
+						editor.commit();
+						
+						
 						BigDecimal bd = dataBase.getAvailableMinutes();
 						bd = bd.add( new BigDecimal( mins[0] ) );
 
@@ -139,9 +144,8 @@ public class PayPalActivity extends Activity
 						Toast.makeText( getApplicationContext(), "Payment processed Successfully!!", Toast.LENGTH_LONG ).show();
 						overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
 						finish();
-
 					}
-					catch( JSONException e )
+					catch( Exception e )
 					{
 						Log.e( "PayPalActivity", "an extremely unlikely failure occurred: ", e );
 					}
