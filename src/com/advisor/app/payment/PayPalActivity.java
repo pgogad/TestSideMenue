@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.advisor.app.R;
 import com.advisor.app.db.AdvisorDB;
+import com.advisor.app.phone.Constants;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalFuturePaymentActivity;
 import com.paypal.android.sdk.payments.PayPalPayment;
@@ -31,13 +32,14 @@ public class PayPalActivity extends Activity
 {
 	private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_SANDBOX;
 	private static final String CONFIG_CLIENT_ID = "AboZuBA-iaS7l3ii-ZyDTdkEdO5Eas9BCycr_HTiZ1-uTjICrUVs4mWARVG7";
-	//"AU_avxBQlYdpx4ssH0La56PRb47b_L4W8Eu13tujoD15bct7zsIoWHLd5vxm";// "pawangogad-facilitator_api1.yahoo.com";//"APP-80W284485P519543T";
+	// "AU_avxBQlYdpx4ssH0La56PRb47b_L4W8Eu13tujoD15bct7zsIoWHLd5vxm";//
+	// "pawangogad-facilitator_api1.yahoo.com";//"APP-80W284485P519543T";
 	private static final int REQUEST_CODE_PAYMENT = 1;
 	// private FileManagement file = null;
 	private String[] mins = { "", "", "" };
 
 	AdvisorDB dataBase;
-	
+
 	SharedPreferences sharedpreferences;
 
 	private RadioGroup amountRadio;
@@ -50,8 +52,8 @@ public class PayPalActivity extends Activity
 	{
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.pay_pal );
-		
-		sharedpreferences = getSharedPreferences("TheAdvisorApp_PP", Context.MODE_PRIVATE);
+
+		sharedpreferences = getSharedPreferences( "TheAdvisorApp_PP", Context.MODE_PRIVATE );
 
 		amountRadio = (RadioGroup) findViewById( R.id.amount_options );
 
@@ -131,12 +133,11 @@ public class PayPalActivity extends Activity
 					try
 					{
 						Log.i( "Approval", confirm.toJSONObject().toString() );
-						
+
 						Editor editor = sharedpreferences.edit();
-						editor.putString("PP_APPROVAL", confirm.toJSONObject().toString());
+						editor.putString( Constants.SHARED_PREF_APP_NAME, confirm.toJSONObject().toString() );
 						editor.commit();
-						
-						
+
 						BigDecimal bd = dataBase.getAvailableMinutes();
 						bd = bd.add( new BigDecimal( mins[0] ) );
 

@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.advisor.app.db.AdvisorDB;
 import com.advisor.app.phone.AsyncHelper;
+import com.advisor.app.phone.Constants;
 
 public class MainLanding extends Activity
 {
@@ -62,7 +63,7 @@ public class MainLanding extends Activity
 		try
 		{
 			String[] result = async.execute( "mainpage" ).get();
-			rates = result[0];
+			rates = result[Constants.RATE];
 		}
 		catch( InterruptedException | ExecutionException e )
 		{

@@ -34,13 +34,13 @@ public class AsyncHelper extends AsyncTask<String, Void, String[]>
 		String args = params[0];
 		if( args.equalsIgnoreCase( "mainpage" ) )
 		{
-			results[0] = HttpHelper.getRates();
+			results[Constants.RATE] = HttpHelper.getRates();
 		}
 		else
 		{
-			results[0] = HttpHelper.requestWebService();
-			results[1] = HttpHelper.getRates();
-			results[2] = HttpHelper.getPhoneNumber();
+			results[Constants.CAPABILITY_TOKEN] = HttpHelper.requestWebService();
+			results[Constants.RATE] = HttpHelper.getRates();
+			results[Constants.PHONE_NUMBER] = HttpHelper.getPhoneNumber();
 		}
 		return results;
 	}
