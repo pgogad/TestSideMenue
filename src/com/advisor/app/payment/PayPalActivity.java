@@ -38,7 +38,7 @@ public class PayPalActivity extends Activity
 	// private FileManagement file = null;
 	private String[] mins = { "", "", "" };
 
-	AdvisorDB dataBase;
+	private AdvisorDB dataBase;
 
 	SharedPreferences sharedpreferences;
 
@@ -75,19 +75,12 @@ public class PayPalActivity extends Activity
 		startService( intent );
 
 		dataBase = new AdvisorDB( this );
-
 		// file = new FileManagement(this);
 	}
 
 	public void onBuyPressed( View pressed )
 	{
-		// PAYMENT_INTENT_SALE will cause the payment to complete immediately.
-		// Change PAYMENT_INTENT_SALE to PAYMENT_INTENT_AUTHORIZE to only
-		// authorize payment and
-		// capture funds later.
-
 		int id = pressed.getId();
-
 		id = amountRadio.getCheckedRadioButtonId();
 		RadioButton radioButton = (RadioButton) findViewById( id );
 
@@ -106,13 +99,13 @@ public class PayPalActivity extends Activity
 				amount = customAmt;
 		}
 
-		BigDecimal total = new BigDecimal( amount.trim() );
+		BigDecimal total = new BigDecimal( amount.trim() ).setScale(5,BigDecimal.ROUND_FLOOR);
 
-		mins[0] = amount.trim();
+		mins[0] = total.toString();
 		mins[1] = "0";
 		mins[2] = "0";
 
-		PayPalPayment thingToBuy = new PayPalPayment( total, "USD", "Reading by Siane", PayPalPayment.PAYMENT_INTENT_SALE );
+		PayPalPayment thingToBuy = new PayPalPayment( total, "USD", "Adviser Fees", PayPalPayment.PAYMENT_INTENT_SALE );
 		Intent intent = new Intent( PayPalActivity.this, PaymentActivity.class );
 		intent.putExtra( PaymentActivity.EXTRA_PAYMENT, thingToBuy );
 		startActivityForResult( intent, REQUEST_CODE_PAYMENT );
@@ -139,9 +132,9 @@ public class PayPalActivity extends Activity
 						editor.commit();
 
 						BigDecimal bd = dataBase.getAvailableMinutes();
-						bd = bd.add( new BigDecimal( mins[0] ) );
-
-						dataBase.insertRecord( String.valueOf( bd.doubleValue() ), Long.valueOf( "0" ).longValue(), Long.valueOf( "0" ).longValue() );
+						bd = bd.add( new BigDecimal( mins[0] ).setScale(5,BigDecimal.ROUND_FLOOR) );
+                        //String.valueOf( bd.doubleValue() )
+						dataBase.insertRecord( bd.setScale(5,BigDecimal.ROUND_FLOOR).toString(), Long.valueOf( "0" ).longValue(), Long.valueOf( "0" ).longValue() );
 						Toast.makeText( getApplicationContext(), "Payment processed Successfully!!", Toast.LENGTH_LONG ).show();
 						overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
 						finish();
@@ -167,8 +160,7 @@ public class PayPalActivity extends Activity
 		}
 		else if( resultCode == PayPalFuturePaymentActivity.RESULT_EXTRAS_INVALID )
 		{
-			Log.i( "FuturePaymentExample",
-					"Probably the attempt to previously start the PayPalService had an invalid PayPalConfiguration. Please see the docs." );
+			Log.i( "FuturePaymentExample", "Probably the attempt to previously start the PayPalService had an invalid PayPalConfiguration. Please see the docs." );
 		}
 	}
 

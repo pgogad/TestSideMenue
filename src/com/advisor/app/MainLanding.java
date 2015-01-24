@@ -1,6 +1,5 @@
 package com.advisor.app;
 
-import java.math.BigDecimal;
 import java.util.concurrent.ExecutionException;
 
 import android.app.Activity;
@@ -8,6 +7,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
+//import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.advisor.app.db.AdvisorDB;
 import com.advisor.app.phone.AsyncHelper;
 import com.advisor.app.phone.Constants;
+import com.advisor.app.util.UtilHelper;
 
 public class MainLanding extends Activity
 {
@@ -256,7 +257,7 @@ public class MainLanding extends Activity
 			}
 			else if( option.equalsIgnoreCase( "Call Advisor" ) )
 			{
-				minutes = dataBase.getAvailableMinutes().divide( new BigDecimal( rates ) ).intValueExact();
+				minutes = UtilHelper.getMinutesRemaining( dataBase.getAvailableMinutes(), rates );
 				if( Integer.valueOf( minutes ) > 0 )
 				{
 					Intent intent = new Intent( getBaseContext(), CallActivity.class );
@@ -266,17 +267,11 @@ public class MainLanding extends Activity
 				else
 				{
 					drawerLayout.closeDrawer( drawerListView );
-					Toast.makeText( getApplicationContext(), "Please buy minutes in order to call Siane :-)!!", Toast.LENGTH_LONG ).show();
+					Toast.makeText( getApplicationContext(), "Please buy minutes in order to call Adviser :-)!!", Toast.LENGTH_LONG ).show();
 				}
 			}
 			else
 			{
-				// Intent intent = new Intent( getBaseContext(),
-				// MainActivity.class );
-				// startActivity( intent );
-				// overridePendingTransition( R.anim.slide_in, R.anim.slide_out
-				// );
-				// drawerLayout.closeDrawer( drawerListView );
 			}
 		}
 	}

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.advisor.app.db.AdvisorDB;
+import com.advisor.app.util.UtilHelper;
 import com.twilio.client.Connection;
 import com.twilio.client.Connection.State;
 import com.twilio.client.ConnectionListener;
@@ -37,9 +38,9 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 		this.database = new AdvisorDB( context );
 		this.context = context;
 
-		this.capabilityToken = param[0];
-		this.rates = param[1];
-		this.phoneNumber = param[2];
+		this.capabilityToken = param[Constants.CAPABILITY_TOKEN];
+		this.rates = param[Constants.RATE];
+		this.phoneNumber = param[Constants.PHONE_NUMBER];
 
 		if( !Twilio.isInitialized() )
 		{
@@ -67,12 +68,11 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 		}
 
 		Map<String, String> parameters = new HashMap<String, String>();
-
-		int amount = database.getAvailableMinutes().divide( new BigDecimal( rates ) ).intValueExact();
+		int amount = UtilHelper.getMinutesRemaining( database.getAvailableMinutes(), rates );
 
 		if( amount < 1 )
 		{
-			Toast.makeText( context, "Please buy minutes in order to call Advisor :-)!!", Toast.LENGTH_LONG ).show();
+			Toast.makeText( context, "Please buy minutes in order to call Adviser :-)!!", Toast.LENGTH_LONG ).show();
 		}
 		else
 		{
@@ -101,6 +101,8 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 			device.release();
 		}
 		capabilityToken = null;
+		
+		onDisconnect();
 	}
 
 	@Override
@@ -194,13 +196,14 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 		Log.d( TAG, "Minutes to be charged : " + minutes + " mins" );
 
 		BigDecimal amount = database.getAvailableMinutes();
-		BigDecimal chargedAmt = new BigDecimal( String.valueOf( minutes ) );
+		BigDecimal rate = new BigDecimal( rates ).setScale( 5, BigDecimal.ROUND_FLOOR );
 
-		amount = amount.subtract( chargedAmt.multiply( new BigDecimal( rates ) ) );
-
-		Log.d( TAG, "Amount remaining : " + amount.toString() + " mins" );
-
-		database.insertRecord( String.valueOf( amount.doubleValue() ), startTime, endTime );
+		for( int i = 0; i < minutes; i++ )
+		{
+			amount = amount.subtract( rate ).setScale( 5, BigDecimal.ROUND_FLOOR );
+		}
+		Log.d( TAG, "Amount remaining : " + amount.toString() );
+		database.insertRecord( amount.toString(), startTime, endTime );
 
 		if( device != null )
 		{

@@ -42,8 +42,8 @@ public class AdvisorDB extends SQLiteOpenHelper
 		}
 		else
 		{
-			String updateSql = "UPDATE TIME_TRACKER SET AMOUNT='" + minutes + "' , START_TIME='" + String.valueOf( startTime )
-					+ "' , END_TIME='" + String.valueOf( endTime ) + "' WHERE ID=1";
+			String updateSql = "UPDATE TIME_TRACKER SET AMOUNT='" + minutes + "' , START_TIME='" + String.valueOf( startTime ) + "' , END_TIME='"
+					+ String.valueOf( endTime ) + "' WHERE ID=1";
 
 			WRITER.execSQL( updateSql );
 		}
@@ -66,7 +66,7 @@ public class AdvisorDB extends SQLiteOpenHelper
 			cursor.moveToFirst();
 			BigDecimal temp = new BigDecimal( cursor.getString( 1 ) );
 			cursor.close();
-			return temp;
+			return temp.setScale( 5, BigDecimal.ROUND_FLOOR );
 		}
 
 	}
