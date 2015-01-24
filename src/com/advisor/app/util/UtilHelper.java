@@ -7,17 +7,17 @@ import java.math.BigDecimal;
  */
 public class UtilHelper
 {
-    public static int getMinutesRemaining( BigDecimal amount,String rates)
-    {
-        BigDecimal rate = new BigDecimal(rates).setScale(5,BigDecimal.ROUND_FLOOR);
-        BigDecimal minutes = amount.setScale(5, BigDecimal.ROUND_FLOOR);
-        int count = 0;
-        while(minutes.compareTo( rate ) >= 0)
-        {
-            count++;
-            minutes = minutes.subtract(rate).setScale(5,BigDecimal.ROUND_FLOOR);
-        }
-        return count;
-    }
+	public static int getMinutesRemaining( BigDecimal amount, String rates )
+	{
+		BigDecimal rate = new BigDecimal( rates ).setScale( 5, BigDecimal.ROUND_FLOOR );
+		BigDecimal minutes = amount.setScale( 5, BigDecimal.ROUND_FLOOR );
+		int count = 0;
+		while( minutes.compareTo( rate ) >= 0 )
+		{
+			count++;
+			minutes = minutes.subtract( rate ).setScale( 5, BigDecimal.ROUND_FLOOR );
+		}
+		return count;
+	}
 
 }
