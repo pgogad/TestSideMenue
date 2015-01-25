@@ -6,5 +6,6 @@ public class Constants
 	public static int RATE = 0;
 	public static int CAPABILITY_TOKEN = 1;
 	public static int PHONE_NUMBER = 2;
+	public static int PAY_PAL = 3;
 	
 }

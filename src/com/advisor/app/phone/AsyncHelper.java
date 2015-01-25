@@ -29,14 +29,18 @@ public class AsyncHelper extends AsyncTask<String, Void, String[]>
 	@Override
 	protected String[] doInBackground( String... params )
 	{
-		String[] results = new String[3];
+		String[] results = new String[4];
 
 		String args = params[0];
 		if( args.equalsIgnoreCase( "mainpage" ) )
 		{
 			results[Constants.RATE] = HttpHelper.getRates();
 		}
-		else
+		if(args.equalsIgnoreCase( "paypalapproval" ))
+		{
+			results[Constants.PAY_PAL] = HttpHelper.postPayPalApproval( params[1] );
+		}
+		else 
 		{
 			results[Constants.CAPABILITY_TOKEN] = HttpHelper.requestWebService();
 			results[Constants.RATE] = HttpHelper.getRates();

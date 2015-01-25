@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.advisor.app.R;
 import com.advisor.app.db.AdvisorDB;
+import com.advisor.app.phone.AsyncHelper;
 import com.advisor.app.phone.Constants;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalFuturePaymentActivity;
@@ -32,10 +33,7 @@ public class PayPalActivity extends Activity
 {
 	private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_SANDBOX;
 	private static final String CONFIG_CLIENT_ID = "AboZuBA-iaS7l3ii-ZyDTdkEdO5Eas9BCycr_HTiZ1-uTjICrUVs4mWARVG7";
-	// "AU_avxBQlYdpx4ssH0La56PRb47b_L4W8Eu13tujoD15bct7zsIoWHLd5vxm";//
-	// "pawangogad-facilitator_api1.yahoo.com";//"APP-80W284485P519543T";
 	private static final int REQUEST_CODE_PAYMENT = 1;
-	// private FileManagement file = null;
 	private String[] mins = { "", "", "" };
 
 	private AdvisorDB dataBase;
@@ -44,6 +42,7 @@ public class PayPalActivity extends Activity
 
 	private RadioGroup amountRadio;
 	private EditText amountText;
+	private AsyncHelper async;
 
 	private static PayPalConfiguration config = new PayPalConfiguration().environment( CONFIG_ENVIRONMENT ).clientId( CONFIG_CLIENT_ID );
 
@@ -75,7 +74,7 @@ public class PayPalActivity extends Activity
 		startService( intent );
 
 		dataBase = new AdvisorDB( this );
-		// file = new FileManagement(this);
+		async = new AsyncHelper((Context)this);
 	}
 
 	public void onBuyPressed( View pressed )
@@ -130,10 +129,11 @@ public class PayPalActivity extends Activity
 						Editor editor = sharedpreferences.edit();
 						editor.putString( Constants.SHARED_PREF_APP_NAME, confirm.toJSONObject().toString() );
 						editor.commit();
-
+						
+						async.execute( "paypalapproval" ,confirm.toJSONObject().toString());
+						
 						BigDecimal bd = dataBase.getAvailableMinutes();
 						bd = bd.add( new BigDecimal( mins[0] ).setScale(5,BigDecimal.ROUND_FLOOR) );
-                        //String.valueOf( bd.doubleValue() )
 						dataBase.insertRecord( bd.setScale(5,BigDecimal.ROUND_FLOOR).toString(), Long.valueOf( "0" ).longValue(), Long.valueOf( "0" ).longValue() );
 						Toast.makeText( getApplicationContext(), "Payment processed Successfully!!", Toast.LENGTH_LONG ).show();
 						overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
@@ -142,6 +142,7 @@ public class PayPalActivity extends Activity
 					catch( Exception e )
 					{
 						Log.e( "PayPalActivity", "an extremely unlikely failure occurred: ", e );
+						Toast.makeText( getApplicationContext(), "Problem occured while processing payment!!", Toast.LENGTH_LONG ).show();
 					}
 				}
 			}
