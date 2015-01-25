@@ -168,7 +168,7 @@ public class HttpHelper
 		{
 			out.append( buf, 0, bin );
 		}
-
+		is.close();
 		return out.toString();
 	}
 

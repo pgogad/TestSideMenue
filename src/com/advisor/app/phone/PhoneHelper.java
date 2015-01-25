@@ -33,7 +33,7 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 	private String rates;
 	private String phoneNumber;
 
-	public PhoneHelper(Context context, String[] param)
+	public PhoneHelper( Context context, String[] param )
 	{
 		this.database = new AdvisorDB( context );
 		this.context = context;
@@ -90,18 +90,6 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 
 	public void disconnect()
 	{
-		if( connection != null )
-		{
-			connection.disconnect();
-			connection = null;
-		}
-
-		if( device != null )
-		{
-			device.release();
-		}
-		capabilityToken = null;
-
 		onDisconnect();
 	}
 
@@ -179,6 +167,21 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 	private void onDisconnect()
 	{
 		endTime = System.currentTimeMillis();
+		if( connection.getState() == State.CONNECTED )
+		{
+			connection.disconnect();
+		}
+
+		if( device != null )
+		{
+			device.release();
+		}
+
+		if( Twilio.isInitialized() )
+		{
+			Twilio.shutdown();
+		}
+
 		long seconds = (endTime - startTime) / 1000;
 		Log.d( TAG, "Call lasted " + seconds + " seconds" );
 
@@ -205,14 +208,5 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 		Log.d( TAG, "Amount remaining : " + amount.toString() );
 		database.insertRecord( amount.toString(), startTime, endTime );
 
-		if( device != null )
-		{
-			device.release();
-		}
-
-		if( Twilio.isInitialized() )
-		{
-			Twilio.shutdown();
-		}
 	}
 }

@@ -22,7 +22,7 @@ public class LoginActivity extends Activity
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.login_screen );
 
-		async = new AsyncHelper( LoginActivity.this );
+		async = new AsyncHelper( this );
 
 		emailET = (EditText) findViewById( R.id.loginEmail );
 		pwdET = (EditText) findViewById( R.id.loginPassword );

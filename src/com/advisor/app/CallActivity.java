@@ -1,7 +1,6 @@
 package com.advisor.app;
 
 import java.math.BigDecimal;
-import java.util.concurrent.ExecutionException;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -23,22 +22,17 @@ public class CallActivity extends Activity
 	{
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.call_activity );
-
-		dataBase = new AdvisorDB( CallActivity.this );
+		dataBase = new AdvisorDB( this );
+		asyncHelper = new AsyncHelper( this );
 
 		try
 		{
-			asyncHelper = new AsyncHelper( CallActivity.this );
 			BigDecimal amount = dataBase.getAvailableMinutes();
 			phone = new PhoneHelper( getApplicationContext(), asyncHelper.execute( "call", amount.toString() ).get() );
 		}
-		catch( InterruptedException e )
+		catch( Exception ex )
 		{
-			e.printStackTrace();
-		}
-		catch( ExecutionException e )
-		{
-			e.printStackTrace();
+			ex.printStackTrace();
 		}
 	}
 
@@ -62,6 +56,7 @@ public class CallActivity extends Activity
 		try
 		{
 			phone.connect();
+
 		}
 		catch( Exception e )
 		{

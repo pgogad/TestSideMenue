@@ -53,7 +53,7 @@ public class MainLanding extends Activity
 		setContentView( R.layout.gmail_style_navigation );
 
 		dataBase = new AdvisorDB( this );
-		async = new AsyncHelper( MainLanding.this );
+		async = new AsyncHelper( this );
 
 		try
 		{

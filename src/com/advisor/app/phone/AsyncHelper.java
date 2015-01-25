@@ -14,7 +14,7 @@ public class AsyncHelper extends AsyncTask<String, Void, String[]>
 	private ProgressDialog progress;
 	private Context context;
 
-	public AsyncHelper(Context context)
+	public AsyncHelper( Context context )
 	{
 		this.context = context;
 	}

@@ -74,7 +74,7 @@ public class PayPalActivity extends Activity
 		startService( intent );
 
 		dataBase = new AdvisorDB( this );
-		async = new AsyncHelper( PayPalActivity.this );
+		async = new AsyncHelper( this );
 	}
 
 	public void onBuyPressed( View pressed )
