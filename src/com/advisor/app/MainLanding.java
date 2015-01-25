@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.advisor.app.db.AdvisorDB;
+import com.advisor.app.login.LoginActivity;
 import com.advisor.app.phone.AsyncHelper;
 import com.advisor.app.phone.Constants;
 import com.advisor.app.util.UtilHelper;
@@ -52,14 +53,7 @@ public class MainLanding extends Activity
 		setContentView( R.layout.gmail_style_navigation );
 
 		dataBase = new AdvisorDB( this );
-
-		// minutes = dataBase.getAvailableMinutes().divide( new BigDecimal(
-		// "5.00" ) ).intValueExact();
-		// StrictMode.ThreadPolicy policy = new
-		// StrictMode.ThreadPolicy.Builder().permitAll().build();
-		// StrictMode.setThreadPolicy( policy );
-
-		async = new AsyncHelper( this );
+		async = new AsyncHelper( MainLanding.this );
 
 		try
 		{
@@ -270,8 +264,15 @@ public class MainLanding extends Activity
 					Toast.makeText( getApplicationContext(), "Please buy minutes in order to call Adviser :-)!!", Toast.LENGTH_LONG ).show();
 				}
 			}
+			else if( option.equalsIgnoreCase( "Login" ) )
+			{
+				Intent login = new Intent( getBaseContext(), LoginActivity.class );
+				startActivity( login );
+				overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
+			}
 			else
 			{
+
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 package com.advisor.app;
 
+import java.math.BigDecimal;
 import java.util.concurrent.ExecutionException;
 
 import android.app.Activity;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.advisor.app.db.AdvisorDB;
 import com.advisor.app.phone.AsyncHelper;
 import com.advisor.app.phone.PhoneHelper;
 
@@ -15,16 +17,20 @@ public class CallActivity extends Activity
 {
 	private PhoneHelper phone;
 	private AsyncHelper asyncHelper;
-	
+	private AdvisorDB dataBase;
+
 	protected void onCreate( Bundle savedInstanceState )
 	{
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.call_activity );
 
-		asyncHelper = new AsyncHelper( this );
+		dataBase = new AdvisorDB( CallActivity.this );
+
 		try
 		{
-			phone = new PhoneHelper( getApplicationContext(), asyncHelper.execute( "call" ).get() );
+			asyncHelper = new AsyncHelper( CallActivity.this );
+			BigDecimal amount = dataBase.getAvailableMinutes();
+			phone = new PhoneHelper( getApplicationContext(), asyncHelper.execute( "call", amount.toString() ).get() );
 		}
 		catch( InterruptedException e )
 		{

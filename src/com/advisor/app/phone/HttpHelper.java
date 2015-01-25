@@ -64,8 +64,8 @@ public class HttpHelper
 	{
 		try
 		{
-			String url = "http://dry-dusk-8611.herokuapp.com/paypalapproval/" + URLEncoder.encode(approval, "UTF-8");
-			return httpGet(url);
+			String url = "http://dry-dusk-8611.herokuapp.com/paypalapproval/" + URLEncoder.encode( approval, "UTF-8" );
+			return httpGet( url );
 		}
 		catch( Exception e )
 		{
@@ -74,88 +74,25 @@ public class HttpHelper
 		}
 	}
 
-	/*
-	 * private static String executeRequest( HttpUriRequest request, String url
-	 * ) { HttpClient client = new DefaultHttpClient(); HttpResponse
-	 * httpResponse; String response = null; try { httpResponse =
-	 * client.execute( request ); // int responseCode =
-	 * httpResponse.getStatusLine().getStatusCode(); // String message =
-	 * httpResponse.getStatusLine().getReasonPhrase();
-	 * 
-	 * HttpEntity entity = httpResponse.getEntity(); if( entity != null ) {
-	 * InputStream instream = entity.getContent(); response =
-	 * stringFromInputStream( instream );
-	 * 
-	 * instream.close(); }
-	 * 
-	 * } catch( ClientProtocolException e ) {
-	 * client.getConnectionManager().shutdown(); e.printStackTrace(); } catch(
-	 * IOException e ) { client.getConnectionManager().shutdown();
-	 * e.printStackTrace(); }
-	 * 
-	 * return response; }
-	 */
-	// public static String postPayPalApproval( String approval )
-	// {
-	// try
-	// {
-	// HttpURLConnection urlConnection = null;
-	// URL urlToRequest = new URL(
-	// "http://dry-dusk-8611.herokuapp.com/paypalapproval" );
-	// urlConnection = (HttpURLConnection) urlToRequest.openConnection();
-	// urlConnection.setConnectTimeout( 1000 * 20 );
-	// urlConnection.setRequestMethod( "POST" );
-	// urlConnection.setReadTimeout( 1000 * 20 );
-	//
-	// urlConnection.addRequestProperty( "payLoad", approval );
-	//
-	// urlConnection.getInputStream().read( approval.getBytes( Charset.forName(
-	// "UTF-8" ) ) );
-	// int statusCode = urlConnection.getResponseCode();
-	//
-	// if( statusCode == HttpURLConnection.HTTP_UNAUTHORIZED )
-	// {
-	// // handle unauthorized (if service requires user login)
-	// }
-	// else if( statusCode != HttpURLConnection.HTTP_OK )
-	// {
-	// // handle any other errors, like 404, 500,..
-	// }
-	//
-	// InputStream in = new BufferedInputStream( urlConnection.getInputStream()
-	// );
-	// return stringFromInputStream( in );
-	// }
-	// catch( Exception ex )
-	// {
-	// ex.printStackTrace();
-	// }
-	// return null;
-	// }
-
-	public static String requestWebService()
+	public static String validateLogin( String username, String password )
 	{
 		try
 		{
-			HttpURLConnection urlConnection = null;
-			URL urlToRequest = new URL( "http://dry-dusk-8611.herokuapp.com/rest" );
-			urlConnection = (HttpURLConnection) urlToRequest.openConnection();
-			urlConnection.setConnectTimeout( 1000 * 20 );
-			urlConnection.setRequestMethod( "GET" );
-			urlConnection.setReadTimeout( 1000 * 20 );
-			int statusCode = urlConnection.getResponseCode();
+			String url = "http://dry-dusk-8611.herokuapp.com/dologin/" + URLEncoder.encode( username, "UTF-8" ) + "/" + URLEncoder.encode( password, "UTF-8" );
+			return httpGet( url );
+		}
+		catch( Exception e )
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
 
-			if( statusCode == HttpURLConnection.HTTP_UNAUTHORIZED )
-			{
-				// handle unauthorized (if service requires user login)
-			}
-			else if( statusCode != HttpURLConnection.HTTP_OK )
-			{
-				// handle any other errors, like 404, 500,..
-			}
-
-			InputStream in = new BufferedInputStream( urlConnection.getInputStream() );
-			return stringFromInputStream( in );
+	public static String requestWebService( int minutes )
+	{
+		try
+		{
+			return httpGet( "http://dry-dusk-8611.herokuapp.com/rest/" + URLEncoder.encode( String.valueOf( minutes ), "UTF-8" ) );
 		}
 		catch( Exception ex )
 		{

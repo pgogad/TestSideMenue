@@ -44,30 +44,34 @@ public final class R {
         public static final int TextView05=0x7f0a0007;
         public static final int TextView06=0x7f0a0008;
         public static final int TextView07=0x7f0a0009;
-        public static final int action_home=0x7f0a001e;
-        public static final int action_settings=0x7f0a001d;
-        public static final int amount_options=0x7f0a0014;
-        public static final int button1=0x7f0a0012;
-        public static final int buyItBtn=0x7f0a001c;
+        public static final int action_home=0x7f0a0022;
+        public static final int action_settings=0x7f0a0021;
+        public static final int amount_options=0x7f0a0018;
+        public static final int btnLogin=0x7f0a0010;
+        public static final int button1=0x7f0a0016;
+        public static final int buyItBtn=0x7f0a0020;
         public static final int call_button=0x7f0a0000;
         public static final int call_hangup=0x7f0a0001;
         public static final int child_layout=0x7f0a0002;
         public static final int content_frame=0x7f0a000b;
-        public static final int custom_amount=0x7f0a0019;
-        public static final int custom_amount_text=0x7f0a001b;
+        public static final int custom_amount=0x7f0a001d;
+        public static final int custom_amount_text=0x7f0a001f;
         public static final int drawer_layout=0x7f0a000a;
-        public static final int fifty_dollars=0x7f0a0018;
-        public static final int five_dollars=0x7f0a0015;
+        public static final int fifty_dollars=0x7f0a001c;
+        public static final int five_dollars=0x7f0a0019;
         public static final int left_drawer=0x7f0a000c;
-        public static final int linearLayout1=0x7f0a000d;
-        public static final int linearLayout2=0x7f0a000e;
-        public static final int linearLayout3=0x7f0a000f;
-        public static final int linearLayout5=0x7f0a0011;
-        public static final int tableRow1=0x7f0a0010;
-        public static final int ten_dollars=0x7f0a0016;
-        public static final int textView_paypal=0x7f0a001a;
-        public static final int twenty_dollars=0x7f0a0017;
-        public static final int wrapper=0x7f0a0013;
+        public static final int linearLayout1=0x7f0a0011;
+        public static final int linearLayout2=0x7f0a0012;
+        public static final int linearLayout3=0x7f0a0013;
+        public static final int linearLayout5=0x7f0a0015;
+        public static final int loginEmail=0x7f0a000d;
+        public static final int loginPassword=0x7f0a000e;
+        public static final int login_error=0x7f0a000f;
+        public static final int tableRow1=0x7f0a0014;
+        public static final int ten_dollars=0x7f0a001a;
+        public static final int textView_paypal=0x7f0a001e;
+        public static final int twenty_dollars=0x7f0a001b;
+        public static final int wrapper=0x7f0a0017;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -75,8 +79,9 @@ public final class R {
         public static final int child_layout=0x7f030002;
         public static final int drawer_listview_item=0x7f030003;
         public static final int gmail_style_navigation=0x7f030004;
-        public static final int menue=0x7f030005;
-        public static final int pay_pal=0x7f030006;
+        public static final int login_screen=0x7f030005;
+        public static final int menue=0x7f030006;
+        public static final int pay_pal=0x7f030007;
     }
     public static final class menu {
         public static final int main=0x7f090000;
@@ -90,7 +95,11 @@ public final class R {
         public static final int call_ph_lbl=0x7f06000b;
         public static final int hang_up_btn=0x7f060008;
         public static final int hello_world=0x7f060002;
-        public static final int option1=0x7f06000c;
+        public static final int login_button=0x7f06000f;
+        public static final int login_email=0x7f06000c;
+        public static final int login_hint=0x7f06000d;
+        public static final int login_password=0x7f06000e;
+        public static final int option1=0x7f060010;
         public static final int payPalbtn=0x7f060005;
         public static final int pic_des=0x7f060006;
         public static final int siane=0x7f060004;

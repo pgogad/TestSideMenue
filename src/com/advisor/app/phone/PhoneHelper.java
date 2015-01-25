@@ -101,7 +101,7 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 			device.release();
 		}
 		capabilityToken = null;
-		
+
 		onDisconnect();
 	}
 

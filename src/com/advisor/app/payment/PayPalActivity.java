@@ -74,7 +74,7 @@ public class PayPalActivity extends Activity
 		startService( intent );
 
 		dataBase = new AdvisorDB( this );
-		async = new AsyncHelper((Context)this);
+		async = new AsyncHelper( PayPalActivity.this );
 	}
 
 	public void onBuyPressed( View pressed )
@@ -98,7 +98,7 @@ public class PayPalActivity extends Activity
 				amount = customAmt;
 		}
 
-		BigDecimal total = new BigDecimal( amount.trim() ).setScale(5,BigDecimal.ROUND_FLOOR);
+		BigDecimal total = new BigDecimal( amount.trim() ).setScale( 5, BigDecimal.ROUND_FLOOR );
 
 		mins[0] = total.toString();
 		mins[1] = "0";
@@ -129,12 +129,13 @@ public class PayPalActivity extends Activity
 						Editor editor = sharedpreferences.edit();
 						editor.putString( Constants.SHARED_PREF_APP_NAME, confirm.toJSONObject().toString() );
 						editor.commit();
-						
-						async.execute( "paypalapproval" ,confirm.toJSONObject().toString());
-						
+
+						async.execute( "paypalapproval", confirm.toJSONObject().toString() );
+
 						BigDecimal bd = dataBase.getAvailableMinutes();
-						bd = bd.add( new BigDecimal( mins[0] ).setScale(5,BigDecimal.ROUND_FLOOR) );
-						dataBase.insertRecord( bd.setScale(5,BigDecimal.ROUND_FLOOR).toString(), Long.valueOf( "0" ).longValue(), Long.valueOf( "0" ).longValue() );
+						bd = bd.add( new BigDecimal( mins[0] ).setScale( 5, BigDecimal.ROUND_FLOOR ) );
+						dataBase.insertRecord( bd.setScale( 5, BigDecimal.ROUND_FLOOR ).toString(), Long.valueOf( "0" ).longValue(), Long.valueOf( "0" )
+								.longValue() );
 						Toast.makeText( getApplicationContext(), "Payment processed Successfully!!", Toast.LENGTH_LONG ).show();
 						overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
 						finish();
@@ -161,7 +162,8 @@ public class PayPalActivity extends Activity
 		}
 		else if( resultCode == PayPalFuturePaymentActivity.RESULT_EXTRAS_INVALID )
 		{
-			Log.i( "FuturePaymentExample", "Probably the attempt to previously start the PayPalService had an invalid PayPalConfiguration. Please see the docs." );
+			Log.i( "FuturePaymentExample",
+					"Probably the attempt to previously start the PayPalService had an invalid PayPalConfiguration. Please see the docs." );
 		}
 	}
 
