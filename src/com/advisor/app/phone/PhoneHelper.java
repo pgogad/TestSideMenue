@@ -124,10 +124,10 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 		}
 	}
 
-	public void destroy()
-	{
-		// shutDown();
-	}
+//	public void destroy()
+//	{
+//		// shutDown();
+//	}
 
 	private void shutDown()
 	{
@@ -141,18 +141,7 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 		{
 			device.release();
 		}
-
-		// if( Twilio.isInitialized() )
-		// {
-		// Twilio.shutdown();
-		// }
 	}
-
-	// @Override
-	// protected void finalize()
-	// {
-	// shutDown();
-	// }
 
 	@Override
 	public void onConnected( Connection arg0 )

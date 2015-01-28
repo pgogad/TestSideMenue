@@ -46,7 +46,6 @@ public class CallActivity extends Activity
 			phone.disconnect();
 			super.onBackPressed();
 			overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
-			//finish();
 		}
 		catch( Exception ex )
 		{
@@ -74,9 +73,6 @@ public class CallActivity extends Activity
 			Toast.makeText( getApplicationContext(), "Call Failed!!", Toast.LENGTH_LONG ).show();
 		}
 	}
-
-	int count = 0;
-
 
 	public void onDestroy()
 	{
