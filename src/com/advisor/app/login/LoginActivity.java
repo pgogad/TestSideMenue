@@ -1,31 +1,36 @@
 package com.advisor.app.login;
 
+import java.net.URLEncoder;
+
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.advisor.app.R;
-import com.advisor.app.phone.AsyncHelper;
 import com.advisor.app.util.UtilHelper;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
 public class LoginActivity extends Activity
 {
 
 	private EditText emailET;
 	private EditText pwdET;
-	private AsyncHelper async;
+	private ProgressDialog prgDialog;
+	private AsyncHttpClient client = new AsyncHttpClient();
 
 	protected void onCreate( Bundle savedInstanceState )
 	{
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.login_screen );
 
-		async = new AsyncHelper( this );
-
 		emailET = (EditText) findViewById( R.id.loginEmail );
 		pwdET = (EditText) findViewById( R.id.loginPassword );
+		prgDialog = new ProgressDialog(this);
 	}
 
 	public void onBackPressed()
@@ -44,7 +49,27 @@ public class LoginActivity extends Activity
 		{
 			if( UtilHelper.validate( email ) )
 			{
-				async.execute( "login", email, password );
+				try
+				{
+					prgDialog.setMessage("Please wait...");
+					prgDialog.setCancelable(false);
+					prgDialog.show();
+					client.addHeader("content-type", "application/json");
+					String url = "http://dry-dusk-8611.herokuapp.com/dologin/" + URLEncoder.encode( email, "UTF-8" ) + "/" + URLEncoder.encode( password, "UTF-8" );
+					client.get( this.getApplicationContext(), url, new AsyncHttpResponseHandler()
+					{
+						@Override
+						public void onSuccess( String response )
+						{
+							Log.d( "HTTP", "onSuccess: " + response );
+							prgDialog.dismiss();
+						}
+					} );
+				}
+				catch( Exception e )
+				{
+					e.printStackTrace();
+				}
 			}
 			else
 			{

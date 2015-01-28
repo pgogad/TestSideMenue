@@ -2,32 +2,41 @@ package com.advisor.app.phone;
 
 import java.math.BigDecimal;
 
-import com.advisor.app.util.UtilHelper;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
-public class AsyncHelper extends AsyncTask<String, Void, String[]>
+import com.advisor.app.util.UtilHelper;
+
+public class AsyncHelper extends AsyncTask<String, Long, String[]>
 {
 
 	private ProgressDialog progress;
-	private Context context;
+	//private Context context;
 
-	public AsyncHelper( Context context )
+	public AsyncHelper( ProgressDialog progress )
 	{
-		this.context = context;
+		this.progress = progress;
 	}
 
 	protected void onPostExecute( String[] result )
 	{
 		super.onPostExecute( result );
-		progress.dismiss();
+		if( null != progress )
+		{
+			if( progress.isShowing() )
+			{
+				progress.dismiss();
+			}
+		}
 	}
 
 	protected void onPreExecute()
 	{
-		progress = ProgressDialog.show( context, "Loading....", "Please wait", true );
+		if( null != progress && !progress.isShowing())
+		{
+			progress.show(); //= ProgressDialog.show( context, "Loading...", "Please wait", false );
+		}
 	}
 
 	@Override
@@ -43,6 +52,7 @@ public class AsyncHelper extends AsyncTask<String, Void, String[]>
 		else if( args.equalsIgnoreCase( "paypalapproval" ) )
 		{
 			results[Constants.PAY_PAL] = HttpHelper.postPayPalApproval( params[1] );
+
 		}
 		else if( args.equalsIgnoreCase( "login" ) )
 		{

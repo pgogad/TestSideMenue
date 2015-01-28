@@ -46,6 +46,9 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 		{
 			Twilio.initialize( context, this );
 		}
+
+		startTime = 0l;
+		endTime = 0l;
 	}
 
 	@Override
@@ -155,6 +158,7 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 	@Override
 	public void onDisconnected( Connection arg0 )
 	{
+		System.out.println( "Inside onDisconnect" );
 		onDisconnect();
 	}
 
@@ -167,9 +171,10 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 	private void onDisconnect()
 	{
 		endTime = System.currentTimeMillis();
-		if( connection.getState() == State.CONNECTED )
+		if( null != connection && connection.getState() == State.CONNECTED )
 		{
 			connection.disconnect();
+			connection = null;
 		}
 
 		if( device != null )
@@ -182,7 +187,11 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 			Twilio.shutdown();
 		}
 
-		long seconds = (endTime - startTime) / 1000;
+		long seconds = 0l;
+		if( startTime != 0  )
+		{
+			seconds = (endTime - startTime) / 1000;
+		}
 		Log.d( TAG, "Call lasted " + seconds + " seconds" );
 
 		int minutes = 0;

@@ -1,8 +1,7 @@
 package com.advisor.app;
 
-import java.util.concurrent.ExecutionException;
-
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -41,10 +40,11 @@ public class MainLanding extends Activity
 	private DrawerLayout drawerLayout;
 	private ActionBarDrawerToggle actionBarDrawerToggle;
 	private AdvisorDB dataBase;
+	private ProgressDialog progress;
 
-	private String rates;
+	private String rates = null;
 	private int minutes = 0;
-	private AsyncHelper async;
+	private AsyncHelper async = null;
 
 	@Override
 	protected void onCreate( Bundle savedInstanceState )
@@ -53,14 +53,20 @@ public class MainLanding extends Activity
 		setContentView( R.layout.gmail_style_navigation );
 
 		dataBase = new AdvisorDB( this );
-		async = new AsyncHelper( this );
+		progress = new ProgressDialog( this );
+		progress.setMessage( "Loading..." );
+		progress.setCancelable( false );
+		async = new AsyncHelper( progress );
 
 		try
 		{
-			String[] result = async.execute( "mainpage" ).get();
-			rates = result[Constants.RATE];
+			if( rates == null )
+			{
+				String[] result = async.execute( "mainpage" ).get();
+				rates = result[Constants.RATE];
+			}
 		}
-		catch( InterruptedException | ExecutionException e )
+		catch( Exception e )
 		{
 			e.printStackTrace();
 		}
@@ -220,7 +226,6 @@ public class MainLanding extends Activity
 	protected void onPostCreate( Bundle savedInstanceState )
 	{
 		super.onPostCreate( savedInstanceState );
-		// Sync the toggle state after onRestoreInstanceState has occurred.
 		actionBarDrawerToggle.syncState();
 	}
 
@@ -275,6 +280,12 @@ public class MainLanding extends Activity
 
 			}
 		}
+	}
+
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
 	}
 
 	public void onBackPressed()

@@ -1,11 +1,13 @@
 package com.advisor.app.db;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class AdvisorDB extends SQLiteOpenHelper
 {
@@ -42,7 +44,14 @@ public class AdvisorDB extends SQLiteOpenHelper
 		}
 		else
 		{
-			String updateSql = "UPDATE TIME_TRACKER SET AMOUNT='" + minutes + "' , START_TIME='" + String.valueOf( startTime ) + "' , END_TIME='"
+			Log.d("DB","Minutes = " + minutes);
+			
+			BigDecimal amount = new BigDecimal( minutes ).setScale( 5, RoundingMode.HALF_DOWN );
+			if(amount.compareTo( BigDecimal.ZERO ) <= 0 )
+			{
+				amount = BigDecimal.ZERO.setScale( 5, RoundingMode.HALF_DOWN );
+			}
+			String updateSql = "UPDATE TIME_TRACKER SET AMOUNT='" + amount.toString() + "' , START_TIME='" + String.valueOf( startTime ) + "' , END_TIME='"
 					+ String.valueOf( endTime ) + "' WHERE ID=1";
 
 			WRITER.execSQL( updateSql );
