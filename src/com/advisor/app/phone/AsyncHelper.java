@@ -3,7 +3,6 @@ package com.advisor.app.phone;
 import java.math.BigDecimal;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.AsyncTask;
 
 import com.advisor.app.util.UtilHelper;
@@ -12,7 +11,6 @@ public class AsyncHelper extends AsyncTask<String, Long, String[]>
 {
 
 	private ProgressDialog progress;
-	//private Context context;
 
 	public AsyncHelper( ProgressDialog progress )
 	{
@@ -33,9 +31,9 @@ public class AsyncHelper extends AsyncTask<String, Long, String[]>
 
 	protected void onPreExecute()
 	{
-		if( null != progress && !progress.isShowing())
+		if( null != progress && !progress.isShowing() )
 		{
-			progress.show(); //= ProgressDialog.show( context, "Loading...", "Please wait", false );
+			progress.show();
 		}
 	}
 

@@ -124,11 +124,6 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 		}
 	}
 
-//	public void destroy()
-//	{
-//		// shutDown();
-//	}
-
 	private void shutDown()
 	{
 		if( null != connection && connection.getState() == State.CONNECTED )
