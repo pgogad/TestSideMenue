@@ -60,6 +60,11 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 	public void connect()
 	{
 
+		if( !Twilio.isInitialized() )
+		{
+			Twilio.initialize( context, this );
+		}
+
 		if( null != connection )
 		{
 			State state = connection.getState();
@@ -82,8 +87,15 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 			parameters.put( "PhoneNumber", phoneNumber );
 			parameters.put( "timeLimit", String.valueOf( amount * 60 ) );
 
-			connection = device.connect( parameters, this );
-
+			if(null != device)
+			{
+				connection = device.connect( parameters, this );
+			}
+			else
+			{
+				device = Twilio.createDevice( capabilityToken, null );
+				connection = device.connect( parameters, this );
+			}
 			if( null == connection )
 			{
 				Log.e( TAG, "Failed to initialize Twilio " );
@@ -114,33 +126,33 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 
 	public void destroy()
 	{
-		shutDown();
+		// shutDown();
 	}
 
 	private void shutDown()
 	{
-		if( device != null )
-		{
-			device.release();
-		}
-
-		if( null != connection )
+		if( null != connection && connection.getState() == State.CONNECTED )
 		{
 			connection.disconnect();
 			connection = null;
 		}
 
-		if( Twilio.isInitialized() )
+		if( device != null )
 		{
-			Twilio.shutdown();
+			device.release();
 		}
+
+		// if( Twilio.isInitialized() )
+		// {
+		// Twilio.shutdown();
+		// }
 	}
 
-	@Override
-	protected void finalize()
-	{
-		shutDown();
-	}
+	// @Override
+	// protected void finalize()
+	// {
+	// shutDown();
+	// }
 
 	@Override
 	public void onConnected( Connection arg0 )
@@ -158,37 +170,22 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 	@Override
 	public void onDisconnected( Connection arg0 )
 	{
-		System.out.println( "Inside onDisconnect" );
+		Log.d( TAG, "Inside onDisconnected" );
 		onDisconnect();
 	}
 
 	@Override
 	public void onDisconnected( Connection arg0, int arg1, String arg2 )
 	{
+		Log.d( TAG, "Inside onDisconnected" );
 		onDisconnect();
 	}
 
 	private void onDisconnect()
 	{
 		endTime = System.currentTimeMillis();
-		if( null != connection && connection.getState() == State.CONNECTED )
-		{
-			connection.disconnect();
-			connection = null;
-		}
-
-		if( device != null )
-		{
-			device.release();
-		}
-
-		if( Twilio.isInitialized() )
-		{
-			Twilio.shutdown();
-		}
-
 		long seconds = 0l;
-		if( startTime != 0  )
+		if( startTime != 0 )
 		{
 			seconds = (endTime - startTime) / 1000;
 		}
@@ -216,6 +213,6 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 		}
 		Log.d( TAG, "Amount remaining : " + amount.toString() );
 		database.insertRecord( amount.toString(), startTime, endTime );
-
+		shutDown();
 	}
 }

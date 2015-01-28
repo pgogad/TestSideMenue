@@ -35,7 +35,7 @@ public class CallActivity extends Activity
 		}
 		catch( Exception ex )
 		{
-			ex.printStackTrace();
+			Log.e("CallActivity","Error occured while executing async task");
 		}
 	}
 
@@ -46,7 +46,7 @@ public class CallActivity extends Activity
 			phone.disconnect();
 			super.onBackPressed();
 			overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
-			finish();
+			//finish();
 		}
 		catch( Exception ex )
 		{
@@ -58,7 +58,16 @@ public class CallActivity extends Activity
 	{
 		try
 		{
-			phone.connect();
+			if(null != phone)
+			{
+				phone.connect();
+			}
+			else
+			{
+				phone = new PhoneHelper( CallActivity.this,  asyncHelper.execute( "call",dataBase.getAvailableMinutes().toString() ).get());
+				phone.connect();
+			}
+			
 		}
 		catch( Exception e )
 		{
@@ -72,13 +81,12 @@ public class CallActivity extends Activity
 	public void onDestroy()
 	{
 		super.onDestroy();
-		phone.destroy();
+		phone = null;
 	}
 
 	public void onBackPressed()
 	{
 		super.onBackPressed();
-		phone.destroy();
 		overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
 		finish();
 	}
