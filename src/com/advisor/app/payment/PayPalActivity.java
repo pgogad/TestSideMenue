@@ -136,16 +136,16 @@ public class PayPalActivity extends Activity
 						dataBase.insertRecord( bd.setScale( 5, BigDecimal.ROUND_FLOOR ).toString(), Long.valueOf( "0" ).longValue(), Long.valueOf( "0" )
 								.longValue() );
 
-//						client.addHeader("content-type", "application/json");
-//						String url = "http://dry-dusk-8611.herokuapp.com/paypalapproval/" + URLEncoder.encode( confirm.toJSONObject().toString(), "UTF-8" );
-//						client.get( this.getApplicationContext(), url, new AsyncHttpResponseHandler()
-//						{
-//							@Override
-//							public void onSuccess( String response )
-//							{
-//								Log.d( "HTTP", "onSuccess: " + response );
-//							}
-//						} );
+						client.addHeader("content-type", "application/json");
+						String url = "http://dry-dusk-8611.herokuapp.com/paypalapproval/" + URLEncoder.encode( confirm.toJSONObject().toString(), "UTF-8" );
+						client.get( this.getApplicationContext(), url, new AsyncHttpResponseHandler()
+						{
+							@Override
+							public void onSuccess( String response )
+							{
+								Log.d( "HTTP", "onSuccess: " + response );
+							}
+						} );
 
 						Toast.makeText( getApplicationContext(), "Payment processed Successfully!!", Toast.LENGTH_LONG ).show();
 						overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
