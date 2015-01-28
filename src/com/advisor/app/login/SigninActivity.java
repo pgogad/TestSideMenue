@@ -91,6 +91,13 @@ public class SigninActivity extends Activity
 				{
 					e.printStackTrace();
 				}
+				finally
+				{
+					if( prgDialog.isShowing() )
+					{
+						prgDialog.dismiss();
+					}
+				}
 			}
 			else
 			{
