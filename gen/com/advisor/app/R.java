@@ -44,8 +44,8 @@ public final class R {
         public static final int TextView05=0x7f0a0007;
         public static final int TextView06=0x7f0a0008;
         public static final int TextView07=0x7f0a0009;
-        public static final int action_home=0x7f0a0022;
-        public static final int action_settings=0x7f0a0021;
+        public static final int action_home=0x7f0a0027;
+        public static final int action_settings=0x7f0a0026;
         public static final int amount_options=0x7f0a0018;
         public static final int btnLogin=0x7f0a0010;
         public static final int button1=0x7f0a0016;
@@ -67,6 +67,11 @@ public final class R {
         public static final int loginEmail=0x7f0a000d;
         public static final int loginPassword=0x7f0a000e;
         public static final int login_error=0x7f0a000f;
+        public static final int registerEmail=0x7f0a0022;
+        public static final int registerMe_register=0x7f0a0025;
+        public static final int registerName=0x7f0a0021;
+        public static final int registerPassword=0x7f0a0023;
+        public static final int register_error=0x7f0a0024;
         public static final int tableRow1=0x7f0a0014;
         public static final int ten_dollars=0x7f0a001a;
         public static final int textView_paypal=0x7f0a001e;
@@ -82,6 +87,7 @@ public final class R {
         public static final int login_screen=0x7f030005;
         public static final int menue=0x7f030006;
         public static final int pay_pal=0x7f030007;
+        public static final int register_me=0x7f030008;
     }
     public static final class menu {
         public static final int main=0x7f090000;
@@ -99,9 +105,15 @@ public final class R {
         public static final int login_email=0x7f06000c;
         public static final int login_hint=0x7f06000d;
         public static final int login_password=0x7f06000e;
-        public static final int option1=0x7f060010;
+        public static final int option1=0x7f060016;
         public static final int payPalbtn=0x7f060005;
         public static final int pic_des=0x7f060006;
+        public static final int register_button_text=0x7f060015;
+        public static final int register_email=0x7f060012;
+        public static final int register_email_hint=0x7f060013;
+        public static final int register_name=0x7f060010;
+        public static final int register_name_hint=0x7f060011;
+        public static final int register_password=0x7f060014;
         public static final int siane=0x7f060004;
         public static final int toggle=0x7f060003;
     }

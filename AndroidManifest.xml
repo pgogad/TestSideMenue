@@ -51,6 +51,11 @@
             android:label="@string/siane"
             android:parentActivityName="com.advisor.app.MainLanding" />
 
+        <activity
+            android:name="com.advisor.app.login.RegisterMe"
+            android:label="@string/siane"
+            android:parentActivityName="com.advisor.app.MainLanding" />
+        
         <service
             android:name="com.paypal.android.sdk.payments.PayPalService"
             android:exported="false" />

@@ -17,6 +17,12 @@
     <string name="login_hint">Email</string>
     <string name="login_password">Password</string>
     <string name="login_button">Login</string>
+    <string name="register_name">Name</string>
+    <string name="register_name_hint">Enter your Name</string>
+    <string name="register_email">Email Address</string>
+    <string name="register_email_hint">Enter your Email</string>
+    <string name="register_password">Enter Password</string>
+    <string name="register_button_text">Register Me</string>
     
     <string-array name="nav_drawer_items">
         <item >Call Advisor</item>

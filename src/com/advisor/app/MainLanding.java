@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.advisor.app.db.AdvisorDB;
+import com.advisor.app.login.RegisterMe;
 import com.advisor.app.login.SigninActivity;
 import com.advisor.app.phone.AsyncHelper;
 import com.advisor.app.phone.Constants;
@@ -273,6 +274,12 @@ public class MainLanding extends Activity
 			{
 				Intent login = new Intent( getBaseContext(), SigninActivity.class );
 				startActivity( login );
+				overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
+			}
+			else if ( option.equalsIgnoreCase( "Register" ))
+			{
+				Intent register = new Intent(getBaseContext(),RegisterMe.class);
+				startActivity( register );
 				overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
 			}
 			else
