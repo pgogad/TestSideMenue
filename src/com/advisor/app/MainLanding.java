@@ -27,7 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.advisor.app.db.AdvisorDB;
-import com.advisor.app.login.LoginActivity;
+import com.advisor.app.login.SigninActivity;
 import com.advisor.app.phone.AsyncHelper;
 import com.advisor.app.phone.Constants;
 import com.advisor.app.util.UtilHelper;
@@ -271,7 +271,7 @@ public class MainLanding extends Activity
 			}
 			else if( option.equalsIgnoreCase( "Login" ) )
 			{
-				Intent login = new Intent( getBaseContext(), LoginActivity.class );
+				Intent login = new Intent( getBaseContext(), SigninActivity.class );
 				startActivity( login );
 				overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
 			}

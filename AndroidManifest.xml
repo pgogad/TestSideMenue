@@ -42,9 +42,15 @@
             android:name="com.advisor.app.payment.PayPalActivity"
             android:label="@string/siane"
             android:parentActivityName="com.advisor.app.MainLanding" />
+        <activity
+            android:name="com.advisor.app.login.LoginActivity"
+            android:label="@string/siane"
+            android:parentActivityName="com.advisor.app.MainLanding" />
+        <activity
+            android:name="com.advisor.app.login.SigninActivity"
+            android:label="@string/siane"
+            android:parentActivityName="com.advisor.app.MainLanding" />
 
-        <activity android:name="com.advisor.app.login.LoginActivity" android:label="@string/siane"
-            android:parentActivityName="com.advisor.app.MainLanding"/>
         <service
             android:name="com.paypal.android.sdk.payments.PayPalService"
             android:exported="false" />
@@ -57,7 +63,6 @@
         <activity android:name="com.paypal.android.sdk.payments.PaymentMethodActivity" />
         <activity android:name="com.paypal.android.sdk.payments.PaymentConfirmActivity" />
         <activity android:name="com.paypal.android.sdk.payments.PaymentCompletedActivity" />
-        
         <activity
             android:name="io.card.payment.CardIOActivity"
             android:configChanges="keyboardHidden|orientation" />

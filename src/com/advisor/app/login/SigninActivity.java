@@ -15,7 +15,7 @@ import com.advisor.app.util.UtilHelper;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
-public class LoginActivity extends Activity
+public class SigninActivity extends Activity
 {
 
 	private EditText emailET;
@@ -30,7 +30,7 @@ public class LoginActivity extends Activity
 
 		emailET = (EditText) findViewById( R.id.loginEmail );
 		pwdET = (EditText) findViewById( R.id.loginPassword );
-		prgDialog = new ProgressDialog(this);
+		prgDialog = new ProgressDialog( this );
 	}
 
 	public void onBackPressed()
@@ -51,11 +51,12 @@ public class LoginActivity extends Activity
 			{
 				try
 				{
-					prgDialog.setMessage("Please wait...");
-					prgDialog.setCancelable(false);
+					prgDialog.setMessage( "Loging in..." );
+					prgDialog.setCancelable( false );
 					prgDialog.show();
-					client.addHeader("content-type", "application/json");
-					String url = "http://dry-dusk-8611.herokuapp.com/dologin/" + URLEncoder.encode( email, "UTF-8" ) + "/" + URLEncoder.encode( password, "UTF-8" );
+					client.addHeader( "content-type", "application/json" );
+					String url = "http://dry-dusk-8611.herokuapp.com/dologin/" + URLEncoder.encode( email, "UTF-8" ) + "/"
+							+ URLEncoder.encode( password, "UTF-8" );
 					client.get( this.getApplicationContext(), url, new AsyncHttpResponseHandler()
 					{
 						@Override
@@ -63,7 +64,27 @@ public class LoginActivity extends Activity
 						{
 							Log.d( "HTTP", "onSuccess: " + response );
 							prgDialog.dismiss();
+							Toast.makeText( getApplicationContext(), "Login Succesful", Toast.LENGTH_LONG ).show();
 						}
+
+						@Override
+						public void onFailure( int statusCode, Throwable error, String content )
+						{
+							prgDialog.dismiss();
+							if( statusCode == 404 )
+							{
+								Toast.makeText( getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG ).show();
+							}
+							else if( statusCode == 500 )
+							{
+								Toast.makeText( getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG ).show();
+							}
+							else
+							{
+								Toast.makeText( getApplicationContext(), "Unexpected Error occcured! Please try again later", Toast.LENGTH_LONG ).show();
+							}
+						}
+
 					} );
 				}
 				catch( Exception e )
