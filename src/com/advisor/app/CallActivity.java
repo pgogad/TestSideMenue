@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.advisor.app.db.AdvisorDB;
 import com.advisor.app.phone.AsyncHelper;
 import com.advisor.app.phone.PhoneHelper;
+import com.twilio.client.Twilio;
 
 public class CallActivity extends Activity
 {
@@ -31,11 +32,11 @@ public class CallActivity extends Activity
 
 		try
 		{
-			phone = new PhoneHelper( CallActivity.this,  asyncHelper.execute( "call",dataBase.getAvailableMinutes().toString() ).get());
+			phone = new PhoneHelper( CallActivity.this, asyncHelper.execute( "call", dataBase.getAvailableMinutes().toString() ).get() );
 		}
 		catch( Exception ex )
 		{
-			Log.e("CallActivity","Error occured while executing async task");
+			Log.e( "CallActivity", "Error occured while executing async task" );
 		}
 	}
 
@@ -57,16 +58,16 @@ public class CallActivity extends Activity
 	{
 		try
 		{
-			if(null != phone)
+			if( null != phone )
 			{
 				phone.connect();
 			}
 			else
 			{
-				phone = new PhoneHelper( CallActivity.this,  asyncHelper.execute( "call",dataBase.getAvailableMinutes().toString() ).get());
+				phone = new PhoneHelper( CallActivity.this, asyncHelper.execute( "call", dataBase.getAvailableMinutes().toString() ).get() );
 				phone.connect();
 			}
-			
+
 		}
 		catch( Exception e )
 		{
@@ -78,6 +79,10 @@ public class CallActivity extends Activity
 	{
 		super.onDestroy();
 		phone = null;
+		if( Twilio.isInitialized() )
+		{
+			Twilio.shutdown();
+		}
 	}
 
 	public void onBackPressed()
