@@ -41,6 +41,7 @@ public class PayPalActivity extends Activity
 	private AdvisorDB dataBase;
 
 	private SharedPreferences sharedpreferences;
+	private Editor editor;
 
 	private RadioGroup amountRadio;
 	private EditText amountText;
@@ -76,6 +77,7 @@ public class PayPalActivity extends Activity
 		startService( intent );
 
 		dataBase = new AdvisorDB( this );
+		editor = sharedpreferences.edit();
 	}
 
 	public void onBuyPressed( View pressed )
@@ -126,8 +128,7 @@ public class PayPalActivity extends Activity
 					try
 					{
 						Log.i( "Approval", confirm.toJSONObject().toString() );
-
-						Editor editor = sharedpreferences.edit();
+						
 						editor.putString( Constants.SHARED_PREF_APP_NAME, confirm.toJSONObject().toString() );
 						editor.commit();
 
@@ -144,6 +145,8 @@ public class PayPalActivity extends Activity
 							public void onSuccess( String response )
 							{
 								Log.d( "HTTP", "onSuccess: " + response );
+								editor.remove( Constants.SHARED_PREF_APP_NAME );
+								editor.commit();
 							}
 						} );
 
