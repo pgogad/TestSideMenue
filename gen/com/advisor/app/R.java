@@ -71,7 +71,7 @@ public final class R {
         public static final int registerMe_register=0x7f0a0025;
         public static final int registerName=0x7f0a0021;
         public static final int registerPassword=0x7f0a0023;
-        public static final int register_error=0x7f0a0024;
+        public static final int registerPasswordAgain=0x7f0a0024;
         public static final int tableRow1=0x7f0a0014;
         public static final int ten_dollars=0x7f0a001a;
         public static final int textView_paypal=0x7f0a001e;
@@ -105,15 +105,16 @@ public final class R {
         public static final int login_email=0x7f06000c;
         public static final int login_hint=0x7f06000d;
         public static final int login_password=0x7f06000e;
-        public static final int option1=0x7f060016;
+        public static final int option1=0x7f060017;
         public static final int payPalbtn=0x7f060005;
         public static final int pic_des=0x7f060006;
-        public static final int register_button_text=0x7f060015;
+        public static final int register_button_text=0x7f060016;
         public static final int register_email=0x7f060012;
         public static final int register_email_hint=0x7f060013;
         public static final int register_name=0x7f060010;
         public static final int register_name_hint=0x7f060011;
         public static final int register_password=0x7f060014;
+        public static final int register_password_again=0x7f060015;
         public static final int siane=0x7f060004;
         public static final int toggle=0x7f060003;
     }

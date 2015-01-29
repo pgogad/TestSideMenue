@@ -22,6 +22,7 @@
     <string name="register_email">Email Address</string>
     <string name="register_email_hint">Enter your Email</string>
     <string name="register_password">Enter Password</string>
+    <string name="register_password_again">Re-enter password</string>
     <string name="register_button_text">Register Me</string>
     
     <string-array name="nav_drawer_items">

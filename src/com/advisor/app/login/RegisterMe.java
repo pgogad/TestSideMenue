@@ -21,7 +21,9 @@ public class RegisterMe extends Activity
 	private ProgressDialog prgDialog;
 	private EditText emailET;
 	private EditText pwdET;
-	
+	private EditText nameET;
+	private EditText passwordET;
+
 	private AsyncHttpClient client = new AsyncHttpClient();
 
 	protected void onCreate( Bundle savedInstanceState )
@@ -31,6 +33,8 @@ public class RegisterMe extends Activity
 
 		emailET = (EditText) findViewById( R.id.registerEmail );
 		pwdET = (EditText) findViewById( R.id.registerPassword );
+		nameET = (EditText) findViewById( R.id.registerName );
+		passwordET = (EditText) findViewById( R.id.registerPasswordAgain );
 
 		prgDialog = new ProgressDialog( this );
 	}
@@ -38,63 +42,87 @@ public class RegisterMe extends Activity
 	public void doRegistration( View view )
 	{
 
-		String email = emailET.getText().toString();
-		String password = pwdET.getText().toString();
+		String email = emailET.getText().toString().trim();
+		String password1 = pwdET.getText().toString().trim();
+		String passwordAgain = passwordET.getText().toString().trim();
+		String name = nameET.getText().toString().trim();
 
-		if( UtilHelper.isNotNull( email ) && UtilHelper.isNotNull( password ) )
+		if( UtilHelper.isNotNull( email ) && UtilHelper.isNotNull( password1 ) && UtilHelper.isNotNull( name ) && UtilHelper.isNotNull( passwordAgain ) )
 		{
 			if( UtilHelper.validate( email ) )
 			{
-				try
+				if( UtilHelper.validateName( name ) )
 				{
-					prgDialog = new ProgressDialog( this );
-					prgDialog.setMessage( "Please wait..." );
-					prgDialog.setCancelable( false );
-					prgDialog.show();
-					client.addHeader( "content-type", "application/json" );
-					String url = "http://dry-dusk-8611.herokuapp.com/dologin/" + URLEncoder.encode( email, "UTF-8" ) + "/"
-							+ URLEncoder.encode( password, "UTF-8" );
-					client.get( this.getApplicationContext(), url, new AsyncHttpResponseHandler()
+					if( password1.equals( passwordAgain ) )
 					{
-						@Override
-						public void onSuccess( String response )
+						try
 						{
-							Log.d( "HTTP", "onSuccess: " + response );
-							prgDialog.dismiss();
-							Toast.makeText( getApplicationContext(), "Login Succesful", Toast.LENGTH_LONG ).show();
-						}
+							prgDialog = new ProgressDialog( this );
+							prgDialog.setMessage( "Please wait..." );
+							prgDialog.setCancelable( false );
+							prgDialog.show();
+							client.addHeader( "content-type", "application/json" );
+							String url = "http://dry-dusk-8611.herokuapp.com/register/" + URLEncoder.encode( email, "UTF-8" ) + "/"
+									+ URLEncoder.encode( name, "UTF-8" ) + "/" + URLEncoder.encode( password1, "UTF-8" );
 
-						@Override
-						public void onFailure( int statusCode, Throwable error, String content )
+							client.get( this.getApplicationContext(), url, new AsyncHttpResponseHandler()
+							{
+								@Override
+								public void onSuccess( String response )
+								{
+									Log.d( "HTTP", "onSuccess: " + response );
+									prgDialog.dismiss();
+
+									if( response.equalsIgnoreCase( "duplicate" ) )
+									{
+										Toast.makeText( getApplicationContext(), "The email address is in use", Toast.LENGTH_LONG ).show();
+									}
+									else if( response.equalsIgnoreCase( "Success" ) )
+									{
+										Toast.makeText( getApplicationContext(), "You have been registered!!", Toast.LENGTH_LONG ).show();
+									}
+									else
+									{
+										Toast.makeText( getApplicationContext(), "There was problem registering you", Toast.LENGTH_LONG ).show();
+									}
+								}
+
+								@Override
+								public void onFailure( int statusCode, Throwable error, String content )
+								{
+									prgDialog.dismiss();
+									if( statusCode == 404 )
+									{
+										Toast.makeText( getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG ).show();
+									}
+									else if( statusCode == 500 )
+									{
+										Toast.makeText( getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG ).show();
+									}
+									else
+									{
+										Toast.makeText( getApplicationContext(), "Unexpected Error occcured! Please try again later", Toast.LENGTH_LONG )
+												.show();
+									}
+								}
+
+							} );
+						}
+						catch( Exception ex )
 						{
-							prgDialog.dismiss();
-							if( statusCode == 404 )
-							{
-								Toast.makeText( getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG ).show();
-							}
-							else if( statusCode == 500 )
-							{
-								Toast.makeText( getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG ).show();
-							}
-							else
-							{
-								Toast.makeText( getApplicationContext(), "Unexpected Error occcured! Please try again later", Toast.LENGTH_LONG ).show();
-							}
+							ex.printStackTrace();
 						}
-
-					} );
-					
-				}
-				catch( Exception ex )
-				{
-					ex.printStackTrace();
-				}
-				finally
-				{
-					if( prgDialog.isShowing() )
-					{
-						prgDialog.dismiss();
 					}
+					else
+					{
+						Toast.makeText( getApplicationContext(), "The passwords you have entered do not match", Toast.LENGTH_LONG ).show();
+					}
+				}
+				else
+				{
+					Toast.makeText( getApplicationContext(),
+							"Please enter valid name. Only characters are allowed, no special characters and white space is allowed", Toast.LENGTH_LONG )
+							.show();
 				}
 			}
 			else
@@ -106,6 +134,5 @@ public class RegisterMe extends Activity
 		{
 			Toast.makeText( getApplicationContext(), "Please fill the form, don't leave any field blank", Toast.LENGTH_LONG ).show();
 		}
-
 	}
 }

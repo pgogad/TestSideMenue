@@ -68,17 +68,23 @@
             android:inputType="textPassword" />
 
         <TextView
-            android:id="@+id/register_error"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dip"
             android:layout_marginLeft="5dip"
             android:layout_marginRight="5dip"
             android:layout_marginTop="5dip"
-            android:gravity="center"
-            android:padding="10dip"
-            android:textColor="#e30000"
-            android:textStyle="bold" />
+            android:text="@string/register_password_again" />
+
+        <EditText
+            android:id="@+id/registerPasswordAgain"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dip"
+            android:layout_marginLeft="5dip"
+            android:layout_marginRight="5dip"
+            android:layout_marginTop="5dip"
+            android:inputType="textPassword" />
 
         <Button
             android:id="@+id/registerMe_register"
