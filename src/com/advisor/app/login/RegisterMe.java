@@ -135,4 +135,19 @@ public class RegisterMe extends Activity
 			Toast.makeText( getApplicationContext(), "Please fill the form, don't leave any field blank", Toast.LENGTH_LONG ).show();
 		}
 	}
+	
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+	}
+
+	
+	public void onBackPressed()
+	{
+		super.onBackPressed();
+		overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
+		finish();
+	}
+
 }

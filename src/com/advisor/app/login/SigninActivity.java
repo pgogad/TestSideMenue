@@ -4,6 +4,7 @@ import java.net.URLEncoder;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -64,7 +65,19 @@ public class SigninActivity extends Activity
 						{
 							Log.d( "HTTP", "onSuccess: " + response );
 							prgDialog.dismiss();
-							Toast.makeText( getApplicationContext(), "Login Succesful", Toast.LENGTH_LONG ).show();
+
+							if( response.equalsIgnoreCase( "Done" ) )
+							{
+								Toast.makeText( getApplicationContext(), "Login Succesful", Toast.LENGTH_LONG ).show();
+							}
+							else if( response.equalsIgnoreCase( "Email address or password did not match" ) )
+							{
+								Toast.makeText( getApplicationContext(), "Email or password did not match", Toast.LENGTH_LONG ).show();
+							}
+							else if( response.equalsIgnoreCase( "Invalid email address" ) )
+							{
+								Toast.makeText( getApplicationContext(), "Email address you entered does not exist", Toast.LENGTH_LONG ).show();
+							}
 						}
 
 						@Override
@@ -91,13 +104,6 @@ public class SigninActivity extends Activity
 				{
 					e.printStackTrace();
 				}
-				finally
-				{
-					if( prgDialog.isShowing() )
-					{
-						prgDialog.dismiss();
-					}
-				}
 			}
 			else
 			{
@@ -108,5 +114,18 @@ public class SigninActivity extends Activity
 		{
 			Toast.makeText( getApplicationContext(), "Please fill the form, don't leave any field blank", Toast.LENGTH_LONG ).show();
 		}
+	}
+	
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+	}
+
+	public void resetPassowrd(View view)
+	{
+		Intent reset = new Intent(this,ForgotPassword.class);
+		startActivity( reset );
+		overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
 	}
 }

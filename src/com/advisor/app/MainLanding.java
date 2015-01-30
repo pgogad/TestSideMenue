@@ -262,6 +262,7 @@ public class MainLanding extends Activity
 				{
 					Intent intent = new Intent( getBaseContext(), CallActivity.class );
 					startActivity( intent );
+					drawerLayout.closeDrawer( drawerListView );
 					overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
 				}
 				else
@@ -274,17 +275,19 @@ public class MainLanding extends Activity
 			{
 				Intent login = new Intent( getBaseContext(), SigninActivity.class );
 				startActivity( login );
+				drawerLayout.closeDrawer( drawerListView );
 				overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
 			}
 			else if ( option.equalsIgnoreCase( "Register" ))
 			{
 				Intent register = new Intent(getBaseContext(),RegisterMe.class);
 				startActivity( register );
+				drawerLayout.closeDrawer( drawerListView );
 				overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
 			}
 			else
 			{
-
+				drawerLayout.closeDrawer( drawerListView );
 			}
 		}
 	}

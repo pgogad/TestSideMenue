@@ -50,12 +50,15 @@
             android:name="com.advisor.app.login.SigninActivity"
             android:label="@string/siane"
             android:parentActivityName="com.advisor.app.MainLanding" />
-
         <activity
             android:name="com.advisor.app.login.RegisterMe"
             android:label="@string/siane"
             android:parentActivityName="com.advisor.app.MainLanding" />
-        
+        <activity
+            android:name="com.advisor.app.login.ForgotPassword"
+            android:label="@string/siane"
+            android:parentActivityName="com.advisor.app.login.SigninActivity" />
+
         <service
             android:name="com.paypal.android.sdk.payments.PayPalService"
             android:exported="false" />
