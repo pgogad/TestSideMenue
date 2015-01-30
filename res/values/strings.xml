@@ -35,6 +35,7 @@
         <item >Add Minutes</item>
         <item >Login</item>
         <item >Register</item>
+        <item >Log Out</item>
         <item >Disclaimer</item>
     </string-array>
     <string name="option1">Call Advisor</string>

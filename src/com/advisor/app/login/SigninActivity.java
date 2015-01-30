@@ -4,7 +4,10 @@ import java.net.URLEncoder;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.advisor.app.R;
+import com.advisor.app.phone.Constants;
 import com.advisor.app.util.UtilHelper;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -23,6 +27,9 @@ public class SigninActivity extends Activity
 	private EditText pwdET;
 	private ProgressDialog prgDialog;
 	private AsyncHttpClient client = new AsyncHttpClient();
+	private SharedPreferences sharedPref;
+	private Editor editor;
+	private String email;
 
 	protected void onCreate( Bundle savedInstanceState )
 	{
@@ -32,6 +39,9 @@ public class SigninActivity extends Activity
 		emailET = (EditText) findViewById( R.id.loginEmail );
 		pwdET = (EditText) findViewById( R.id.loginPassword );
 		prgDialog = new ProgressDialog( this );
+
+		sharedPref = getSharedPreferences( Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE );
+		editor = sharedPref.edit();
 	}
 
 	public void onBackPressed()
@@ -43,7 +53,7 @@ public class SigninActivity extends Activity
 
 	public void doLogging( View view )
 	{
-		String email = emailET.getText().toString();
+		email = emailET.getText().toString();
 		String password = pwdET.getText().toString();
 
 		if( UtilHelper.isNotNull( email ) && UtilHelper.isNotNull( password ) )
@@ -68,6 +78,10 @@ public class SigninActivity extends Activity
 
 							if( response.equalsIgnoreCase( "Done" ) )
 							{
+								String[] sp = UtilHelper.sharedPrefExpand( sharedPref.getString( Constants.SHARED_PREF_NAME, Constants.SP_DEFAULT ) );
+								sp[Constants.SP_EMAIL] = email;
+								editor.putString( Constants.EDITOR_EMAIL, UtilHelper.sharedPrefContract( sp ) );
+								editor.commit();
 								Toast.makeText( getApplicationContext(), "Login Succesful", Toast.LENGTH_LONG ).show();
 							}
 							else if( response.equalsIgnoreCase( "Email address or password did not match" ) )
@@ -115,16 +129,16 @@ public class SigninActivity extends Activity
 			Toast.makeText( getApplicationContext(), "Please fill the form, don't leave any field blank", Toast.LENGTH_LONG ).show();
 		}
 	}
-	
+
 	@Override
 	protected void onDestroy()
 	{
 		super.onDestroy();
 	}
 
-	public void resetPassowrd(View view)
+	public void resetPassowrd( View view )
 	{
-		Intent reset = new Intent(this,ForgotPassword.class);
+		Intent reset = new Intent( this, ForgotPassword.class );
 		startActivity( reset );
 		overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
 	}

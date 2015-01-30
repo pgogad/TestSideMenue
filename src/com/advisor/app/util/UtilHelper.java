@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.advisor.app.phone.Constants;
+
 /**
  * Created by Pawan on 1/24/2015.
  */
@@ -38,6 +40,20 @@ public class UtilHelper
 		pattern = Pattern.compile( NAME_PATTERN );
 		matcher = pattern.matcher( name );
 		return matcher.matches();
+	}
+	
+	
+	public static String sharedPrefContract(String[] input)
+	{
+		StringBuffer buff = new StringBuffer();
+		buff.append( input[Constants.SP_EMAIL] ).append( Constants.SAPERATOR ).append( input[Constants.SP_APPROVAL] );
+		return buff.toString();
+	}
+	
+	public static String[] sharedPrefExpand(String input)
+	{
+		String[] results = input.split( Constants.SAPERATOR );
+		return results;
 	}
 	
 	public static boolean validate( String email )

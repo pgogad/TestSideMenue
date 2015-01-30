@@ -2,7 +2,10 @@ package com.advisor.app;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -46,6 +49,9 @@ public class MainLanding extends Activity
 	private String rates = null;
 	private int minutes = 0;
 	private AsyncHelper async = null;
+	
+	private SharedPreferences sharedPref;
+	private Editor editor;
 
 	@Override
 	protected void onCreate( Bundle savedInstanceState )
@@ -59,6 +65,8 @@ public class MainLanding extends Activity
 		progress.setCancelable( false );
 		async = new AsyncHelper( progress );
 
+		sharedPref = getSharedPreferences( Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE );
+		editor = sharedPref.edit();
 		try
 		{
 			if( rates == null )
@@ -285,6 +293,15 @@ public class MainLanding extends Activity
 				drawerLayout.closeDrawer( drawerListView );
 				overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
 			}
+			else if(option.equalsIgnoreCase( "Log Out" ))
+			{
+				
+				String[] shared = UtilHelper.sharedPrefExpand( sharedPref.getString( Constants.EDITOR_EMAIL, Constants.SP_DEFAULT ) );
+				shared[Constants.SP_EMAIL] = Constants.SP_BLANK;
+				editor.putString( Constants.EDITOR_EMAIL, UtilHelper.sharedPrefContract( shared ) );
+				editor.commit();
+				drawerLayout.closeDrawer( drawerListView );
+			}
 			else
 			{
 				drawerLayout.closeDrawer( drawerListView );
@@ -296,6 +313,7 @@ public class MainLanding extends Activity
 	protected void onDestroy()
 	{
 		super.onDestroy();
+		
 	}
 
 	public void onBackPressed()

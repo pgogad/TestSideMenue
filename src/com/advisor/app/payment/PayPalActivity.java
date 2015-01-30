@@ -21,7 +21,9 @@ import android.widget.Toast;
 
 import com.advisor.app.R;
 import com.advisor.app.db.AdvisorDB;
+import com.advisor.app.login.SigninActivity;
 import com.advisor.app.phone.Constants;
+import com.advisor.app.util.UtilHelper;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
@@ -33,7 +35,7 @@ import com.paypal.android.sdk.payments.PaymentConfirmation;
 
 public class PayPalActivity extends Activity
 {
-	private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_SANDBOX;
+	private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_NO_NETWORK;
 	private static final String CONFIG_CLIENT_ID = "AboZuBA-iaS7l3ii-ZyDTdkEdO5Eas9BCycr_HTiZ1-uTjICrUVs4mWARVG7";
 	private static final int REQUEST_CODE_PAYMENT = 1;
 	private String[] mins = { "", "", "" };
@@ -45,6 +47,7 @@ public class PayPalActivity extends Activity
 
 	private RadioGroup amountRadio;
 	private EditText amountText;
+	private String[] sharedPrefStrings = new String[2];
 
 	private AsyncHttpClient client = new AsyncHttpClient();
 	private static PayPalConfiguration config = new PayPalConfiguration().environment( CONFIG_ENVIRONMENT ).clientId( CONFIG_CLIENT_ID );
@@ -55,7 +58,7 @@ public class PayPalActivity extends Activity
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.pay_pal );
 
-		sharedpreferences = getSharedPreferences( "TheAdvisorApp_PP", Context.MODE_PRIVATE );
+		sharedpreferences = getSharedPreferences( Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE );
 
 		amountRadio = (RadioGroup) findViewById( R.id.amount_options );
 
@@ -72,47 +75,66 @@ public class PayPalActivity extends Activity
 		amountText.setText( "0.00" );
 		amountText.setWidth( (int) metrics.widthPixels / 2 );
 
-		Intent intent = new Intent( PayPalActivity.this, PayPalService.class );
-		intent.putExtra( PayPalService.EXTRA_PAYPAL_CONFIGURATION, config );
-		startService( intent );
+		// Intent intent = new Intent( PayPalActivity.this, PayPalService.class
+		// );
+		// intent.putExtra( PayPalService.EXTRA_PAYPAL_CONFIGURATION, config );
+		// startService( intent );
 
 		dataBase = new AdvisorDB( this );
 		editor = sharedpreferences.edit();
+		sharedPrefStrings = UtilHelper.sharedPrefExpand( sharedpreferences.getString( Constants.EDITOR_EMAIL, Constants.SP_DEFAULT ) );
 	}
 
 	public void onBuyPressed( View pressed )
 	{
-		int id = pressed.getId();
-		id = amountRadio.getCheckedRadioButtonId();
-		RadioButton radioButton = (RadioButton) findViewById( id );
-
-		String temp = (String) radioButton.getText();
-		String amount = null;
-		int i = temp.indexOf( "$" );
-		if( i == 0 )
+		if( sharedPrefStrings[Constants.SP_EMAIL].equalsIgnoreCase( Constants.SP_BLANK ) )
 		{
-			amount = temp.substring( i + 1 );
+			Intent login = new Intent( getApplicationContext(), SigninActivity.class );
+			login.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP );
+			startActivity( login );
+			finish();
+			overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
+			Toast.makeText( getApplicationContext(), "Please login...", Toast.LENGTH_LONG ).show();
 		}
-		String customAmt = String.valueOf( amountText.getText() );
-
-		if( null != customAmt && customAmt.length() > 0 )
+		else
 		{
-			if( !customAmt.equalsIgnoreCase( "0.00" ) )
-				amount = customAmt;
+
+			Intent paypalService = new Intent( PayPalActivity.this, PayPalService.class );
+			paypalService.putExtra( PayPalService.EXTRA_PAYPAL_CONFIGURATION, config );
+			startService( paypalService );
+
+			int id = pressed.getId();
+			id = amountRadio.getCheckedRadioButtonId();
+			RadioButton radioButton = (RadioButton) findViewById( id );
+
+			String temp = (String) radioButton.getText();
+			String amount = null;
+			int i = temp.indexOf( "$" );
+			if( i == 0 )
+			{
+				amount = temp.substring( i + 1 );
+			}
+			String customAmt = String.valueOf( amountText.getText() );
+
+			if( null != customAmt && customAmt.length() > 0 )
+			{
+				if( !customAmt.equalsIgnoreCase( "0.00" ) )
+					amount = customAmt;
+			}
+
+			BigDecimal total = new BigDecimal( amount.trim() ).setScale( 5, BigDecimal.ROUND_FLOOR );
+
+			mins[0] = total.toString();
+			mins[1] = "0";
+			mins[2] = "0";
+
+			PayPalPayment thingToBuy = new PayPalPayment( total, "USD", "Adviser Fees", PayPalPayment.PAYMENT_INTENT_SALE );
+			Intent intent = new Intent( PayPalActivity.this, PaymentActivity.class );
+			intent.putExtra( PaymentActivity.EXTRA_PAYMENT, thingToBuy );
+			startActivityForResult( intent, REQUEST_CODE_PAYMENT );
+			overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
+			amountText.setText( "0.00" );
 		}
-
-		BigDecimal total = new BigDecimal( amount.trim() ).setScale( 5, BigDecimal.ROUND_FLOOR );
-
-		mins[0] = total.toString();
-		mins[1] = "0";
-		mins[2] = "0";
-
-		PayPalPayment thingToBuy = new PayPalPayment( total, "USD", "Adviser Fees", PayPalPayment.PAYMENT_INTENT_SALE );
-		Intent intent = new Intent( PayPalActivity.this, PaymentActivity.class );
-		intent.putExtra( PaymentActivity.EXTRA_PAYMENT, thingToBuy );
-		startActivityForResult( intent, REQUEST_CODE_PAYMENT );
-		overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
-		amountText.setText( "0.00" );
 	}
 
 	@Override
@@ -128,8 +150,9 @@ public class PayPalActivity extends Activity
 					try
 					{
 						Log.i( "Approval", confirm.toJSONObject().toString() );
-						
-						editor.putString( Constants.SHARED_PREF_APP_NAME, confirm.toJSONObject().toString() );
+
+						sharedPrefStrings[Constants.SP_APPROVAL] = confirm.toJSONObject().toString();
+						editor.putString( Constants.EDITOR_EMAIL, UtilHelper.sharedPrefContract( sharedPrefStrings )  );
 						editor.commit();
 
 						BigDecimal bd = dataBase.getAvailableMinutes();
@@ -137,7 +160,7 @@ public class PayPalActivity extends Activity
 						dataBase.insertRecord( bd.setScale( 5, BigDecimal.ROUND_FLOOR ).toString(), Long.valueOf( "0" ).longValue(), Long.valueOf( "0" )
 								.longValue() );
 
-						client.addHeader("content-type", "application/json");
+						client.addHeader( "content-type", "application/json" );
 						String url = "http://dry-dusk-8611.herokuapp.com/paypalapproval/" + URLEncoder.encode( confirm.toJSONObject().toString(), "UTF-8" );
 						client.get( this.getApplicationContext(), url, new AsyncHttpResponseHandler()
 						{
@@ -145,7 +168,8 @@ public class PayPalActivity extends Activity
 							public void onSuccess( String response )
 							{
 								Log.d( "HTTP", "onSuccess: " + response );
-								editor.remove( Constants.SHARED_PREF_APP_NAME );
+								sharedPrefStrings[Constants.SP_APPROVAL] = " ";
+								editor.putString( Constants.EDITOR_EMAIL, UtilHelper.sharedPrefContract( sharedPrefStrings )  );
 								editor.commit();
 							}
 						} );
