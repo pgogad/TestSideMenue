@@ -2,14 +2,20 @@ package com.advisor.app;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.advisor.app.db.AdvisorDB;
+import com.advisor.app.login.SigninActivity;
 import com.advisor.app.phone.AsyncHelper;
+import com.advisor.app.phone.Constants;
 import com.advisor.app.phone.PhoneHelper;
+import com.advisor.app.util.UtilHelper;
 import com.twilio.client.Twilio;
 
 public class CallActivity extends Activity
@@ -18,6 +24,8 @@ public class CallActivity extends Activity
 	private AsyncHelper asyncHelper;
 	private AdvisorDB dataBase;
 	private ProgressDialog progress;
+	private SharedPreferences sharedPref;
+	private String[] shared = new String[2];
 
 	protected void onCreate( Bundle savedInstanceState )
 	{
@@ -38,6 +46,9 @@ public class CallActivity extends Activity
 		{
 			Log.e( "CallActivity", "Error occured while executing async task" );
 		}
+
+		sharedPref = getSharedPreferences( Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE );
+		shared = UtilHelper.sharedPrefExpand( sharedPref.getString( Constants.EDITOR_EMAIL, Constants.SP_DEFAULT ) );
 	}
 
 	public void hangupCall( View view )
@@ -58,14 +69,26 @@ public class CallActivity extends Activity
 	{
 		try
 		{
-			if( null != phone )
+			if( !shared[Constants.SP_EMAIL].equals( Constants.SP_BLANK ) )
 			{
-				phone.connect();
+				if( null != phone )
+				{
+					phone.connect();
+				}
+				else
+				{
+					phone = new PhoneHelper( CallActivity.this, asyncHelper.execute( "call", dataBase.getAvailableMinutes().toString() ).get() );
+					phone.connect();
+				}
 			}
 			else
 			{
-				phone = new PhoneHelper( CallActivity.this, asyncHelper.execute( "call", dataBase.getAvailableMinutes().toString() ).get() );
-				phone.connect();
+				Toast.makeText( getApplicationContext(), "Please log in", Toast.LENGTH_LONG ).show();
+				Intent login = new Intent( this, SigninActivity.class );
+				login.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP );
+				startActivity( login );
+				overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
+				fileList();
 			}
 
 		}

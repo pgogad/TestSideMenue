@@ -46,7 +46,11 @@ public class UtilHelper
 	public static String sharedPrefContract(String[] input)
 	{
 		StringBuffer buff = new StringBuffer();
-		buff.append( input[Constants.SP_EMAIL] ).append( Constants.SAPERATOR ).append( input[Constants.SP_APPROVAL] );
+		buff.append( input[Constants.SP_EMAIL] ).append( Constants.SAPERATOR )
+		.append( input[Constants.SP_APPROVAL] ).append( Constants.SAPERATOR )
+		.append( input[Constants.SP_AMOUNT] ).append( Constants.SAPERATOR )
+		.append( input[Constants.SP_DATE] ).append( Constants.SAPERATOR )
+		.append( input[Constants.SP_TRANS_EMAIL] );
 		return buff.toString();
 	}
 	

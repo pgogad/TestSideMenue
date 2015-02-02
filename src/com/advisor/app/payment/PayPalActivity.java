@@ -1,7 +1,10 @@
 package com.advisor.app.payment;
 
+import hirondelle.date4j.DateTime;
+
 import java.math.BigDecimal;
 import java.net.URLEncoder;
+import java.util.TimeZone;
 
 import android.app.Activity;
 import android.content.Context;
@@ -47,17 +50,25 @@ public class PayPalActivity extends Activity
 
 	private RadioGroup amountRadio;
 	private EditText amountText;
-	private String[] sharedPrefStrings = new String[2];
+	private String[] sharedPrefStrings ;
+	private String amount = null;
+	private BigDecimal total = BigDecimal.ZERO;
 
 	private AsyncHttpClient client = new AsyncHttpClient();
 	private static PayPalConfiguration config = new PayPalConfiguration().environment( CONFIG_ENVIRONMENT ).clientId( CONFIG_CLIENT_ID );
 
+	private DateTime now = DateTime.now(TimeZone.getTimeZone("UTC"));
+	private String date = now.format( "YYYY-MM-DD-hh:mm:ss" );
+
+	
+	
 	@Override
 	protected void onCreate( Bundle savedInstanceState )
 	{
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.pay_pal );
 
+		sharedPrefStrings = new String[Constants.SP_ARRAY_COUNT];
 		sharedpreferences = getSharedPreferences( Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE );
 
 		amountRadio = (RadioGroup) findViewById( R.id.amount_options );
@@ -75,14 +86,10 @@ public class PayPalActivity extends Activity
 		amountText.setText( "0.00" );
 		amountText.setWidth( (int) metrics.widthPixels / 2 );
 
-		// Intent intent = new Intent( PayPalActivity.this, PayPalService.class
-		// );
-		// intent.putExtra( PayPalService.EXTRA_PAYPAL_CONFIGURATION, config );
-		// startService( intent );
-
 		dataBase = new AdvisorDB( this );
 		editor = sharedpreferences.edit();
 		sharedPrefStrings = UtilHelper.sharedPrefExpand( sharedpreferences.getString( Constants.EDITOR_EMAIL, Constants.SP_DEFAULT ) );
+		client.addHeader( "content-type", "application/json" );
 	}
 
 	public void onBuyPressed( View pressed )
@@ -108,7 +115,7 @@ public class PayPalActivity extends Activity
 			RadioButton radioButton = (RadioButton) findViewById( id );
 
 			String temp = (String) radioButton.getText();
-			String amount = null;
+
 			int i = temp.indexOf( "$" );
 			if( i == 0 )
 			{
@@ -122,7 +129,7 @@ public class PayPalActivity extends Activity
 					amount = customAmt;
 			}
 
-			BigDecimal total = new BigDecimal( amount.trim() ).setScale( 5, BigDecimal.ROUND_FLOOR );
+			total = new BigDecimal( amount.trim() ).setScale( 5, BigDecimal.ROUND_FLOOR );
 
 			mins[0] = total.toString();
 			mins[1] = "0";
@@ -150,28 +157,95 @@ public class PayPalActivity extends Activity
 					try
 					{
 						Log.i( "Approval", confirm.toJSONObject().toString() );
+						String url = null;
+						
+						
+						// Check if previous transaction needs to be reported
+						if( !sharedPrefStrings[Constants.SP_AMOUNT].equals( Constants.SP_BLANK ) && !sharedPrefStrings[Constants.SP_TRANS_EMAIL].equals( Constants.SP_BLANK ) )
+						{
+							url = "http://dry-dusk-8611.herokuapp.com/savetransaction/"
+									+ URLEncoder.encode( sharedPrefStrings[Constants.SP_TRANS_EMAIL], "UTF-8" ) + "/" + "/"
+									+ URLEncoder.encode( sharedPrefStrings[Constants.SP_AMOUNT], "UTF-8" ) + "/"
+									+ URLEncoder.encode( sharedPrefStrings[Constants.SP_DATE], "UTF-8" );
 
+							client.get( this.getApplicationContext(), url, new AsyncHttpResponseHandler()
+							{
+								@Override
+								public void onSuccess( String response )
+								{
+									Log.d( "HTTP", "onSuccess: " + response );
+									sharedPrefStrings[Constants.SP_AMOUNT] = Constants.SP_BLANK;
+									sharedPrefStrings[Constants.SP_DATE] = Constants.SP_BLANK;
+									sharedPrefStrings[Constants.SP_TRANS_EMAIL] = Constants.SP_BLANK;
+
+									editor.putString( Constants.EDITOR_EMAIL, UtilHelper.sharedPrefContract( sharedPrefStrings ) );
+									editor.commit();
+								}
+							} );
+						}
+
+						// Save current transaction to shared pref first
 						sharedPrefStrings[Constants.SP_APPROVAL] = confirm.toJSONObject().toString();
-						editor.putString( Constants.EDITOR_EMAIL, UtilHelper.sharedPrefContract( sharedPrefStrings )  );
+						sharedPrefStrings[Constants.SP_AMOUNT] = total.setScale( 5, BigDecimal.ROUND_FLOOR ).toString(); //Set to amount approved
+						sharedPrefStrings[Constants.SP_DATE] = date; 
+						sharedPrefStrings[Constants.SP_TRANS_EMAIL] = sharedPrefStrings[Constants.SP_EMAIL]; //Set to current loged in user
+
+						editor.putString( Constants.EDITOR_EMAIL, UtilHelper.sharedPrefContract( sharedPrefStrings ) );
 						editor.commit();
 
 						BigDecimal bd = dataBase.getAvailableMinutes();
-						bd = bd.add( new BigDecimal( mins[0] ).setScale( 5, BigDecimal.ROUND_FLOOR ) );
+						bd = bd.add( total.setScale( 5, BigDecimal.ROUND_FLOOR ) );
+						
 						dataBase.insertRecord( bd.setScale( 5, BigDecimal.ROUND_FLOOR ).toString(), Long.valueOf( "0" ).longValue(), Long.valueOf( "0" )
 								.longValue() );
 
-						client.addHeader( "content-type", "application/json" );
-						String url = "http://dry-dusk-8611.herokuapp.com/paypalapproval/" + URLEncoder.encode( confirm.toJSONObject().toString(), "UTF-8" );
+						url = "http://dry-dusk-8611.herokuapp.com/paypalapproval/" + URLEncoder.encode( confirm.toJSONObject().toString(), "UTF-8" )
+								+"/"+ URLEncoder.encode( sharedPrefStrings[Constants.SP_EMAIL], "UTF-8" );
 						client.get( this.getApplicationContext(), url, new AsyncHttpResponseHandler()
 						{
 							@Override
 							public void onSuccess( String response )
 							{
 								Log.d( "HTTP", "onSuccess: " + response );
-								sharedPrefStrings[Constants.SP_APPROVAL] = " ";
-								editor.putString( Constants.EDITOR_EMAIL, UtilHelper.sharedPrefContract( sharedPrefStrings )  );
+								sharedPrefStrings[Constants.SP_APPROVAL] = Constants.SP_BLANK;
+
+								editor.putString( Constants.EDITOR_EMAIL, UtilHelper.sharedPrefContract( sharedPrefStrings ) );
 								editor.commit();
 							}
+						} );
+
+						// Save current transaction info
+						url = "http://dry-dusk-8611.herokuapp.com/savetransaction/" + URLEncoder.encode( sharedPrefStrings[Constants.SP_EMAIL], "UTF-8" ) + "/"
+								+ URLEncoder.encode( total.setScale( 5, BigDecimal.ROUND_FLOOR ).toString(), "UTF-8" ) + "/"
+								+ URLEncoder.encode( sharedPrefStrings[Constants.SP_DATE], "UTF-8" );
+
+						client.get( this.getApplicationContext(), url, new AsyncHttpResponseHandler()
+						{
+							@Override
+							public void onSuccess( String response )
+							{
+								Log.d( "HTTP", "onSuccess: " + response );
+
+								sharedPrefStrings[Constants.SP_AMOUNT] = Constants.SP_BLANK;
+								sharedPrefStrings[Constants.SP_DATE] = Constants.SP_BLANK;
+								sharedPrefStrings[Constants.SP_TRANS_EMAIL] = Constants.SP_BLANK;
+
+								editor.putString( Constants.EDITOR_EMAIL, UtilHelper.sharedPrefContract( sharedPrefStrings ) );
+								editor.commit();
+							}
+
+							// Save transaction info to shared pref we will try later
+							@Override
+							public void onFailure( int statusCode, Throwable error, String content )
+							{
+								sharedPrefStrings[Constants.SP_AMOUNT] = total.setScale( 5, BigDecimal.ROUND_FLOOR ).toString();
+								sharedPrefStrings[Constants.SP_DATE] = date;
+								sharedPrefStrings[Constants.SP_TRANS_EMAIL] = sharedPrefStrings[Constants.SP_EMAIL];
+								
+								editor.putString( Constants.EDITOR_EMAIL, UtilHelper.sharedPrefContract( sharedPrefStrings ) );
+								editor.commit();
+							}
+
 						} );
 
 						Toast.makeText( getApplicationContext(), "Payment processed Successfully!!", Toast.LENGTH_LONG ).show();
