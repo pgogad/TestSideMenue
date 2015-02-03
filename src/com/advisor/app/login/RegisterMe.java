@@ -80,6 +80,7 @@ public class RegisterMe extends Activity
 									else if( response.equalsIgnoreCase( "Success" ) )
 									{
 										Toast.makeText( getApplicationContext(), "You have been registered!!", Toast.LENGTH_LONG ).show();
+										finish();
 									}
 									else
 									{

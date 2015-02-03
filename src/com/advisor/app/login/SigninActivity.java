@@ -77,6 +77,7 @@ public class SigninActivity extends Activity
 						public void onSuccess( String response )
 						{
 							Log.d( "HTTP", "onSuccess: " + response );
+							prgDialog.dismiss();
 							if( response.equalsIgnoreCase( "Done" ) )
 							{
 								sp = UtilHelper.sharedPrefExpand( sharedPref.getString( Constants.EDITOR_EMAIL, Constants.SP_DEFAULT ) );
@@ -85,6 +86,7 @@ public class SigninActivity extends Activity
 								editor.commit();
 								Toast.makeText( getApplicationContext(), "Login Succesful", Toast.LENGTH_LONG ).show();
 								overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
+								finish();
 							}
 							else if( response.equalsIgnoreCase( "Email address or password did not match" ) )
 							{

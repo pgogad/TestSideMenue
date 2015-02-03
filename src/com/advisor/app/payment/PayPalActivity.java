@@ -41,7 +41,6 @@ public class PayPalActivity extends Activity
 	private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_SANDBOX;
 	private static final String CONFIG_CLIENT_ID = "AboZuBA-iaS7l3ii-ZyDTdkEdO5Eas9BCycr_HTiZ1-uTjICrUVs4mWARVG7";
 	private static final int REQUEST_CODE_PAYMENT = 1;
-	private String[] mins = { "", "", "" };
 
 	private AdvisorDB dataBase;
 
@@ -50,18 +49,17 @@ public class PayPalActivity extends Activity
 
 	private RadioGroup amountRadio;
 	private EditText amountText;
-	private String[] sharedPrefStrings ;
+	private String[] sharedPrefStrings;
 	private String amount = null;
 	private BigDecimal total = BigDecimal.ZERO;
+	private PaymentConfirmation confirm;
 
 	private AsyncHttpClient client = new AsyncHttpClient();
 	private static PayPalConfiguration config = new PayPalConfiguration().environment( CONFIG_ENVIRONMENT ).clientId( CONFIG_CLIENT_ID );
 
-	private DateTime now = DateTime.now(TimeZone.getTimeZone("UTC"));
+	private DateTime now = DateTime.now( TimeZone.getTimeZone( "UTC" ) );
 	private String date = now.format( "YYYY-MM-DD-hh:mm:ss" );
 
-	
-	
 	@Override
 	protected void onCreate( Bundle savedInstanceState )
 	{
@@ -131,10 +129,6 @@ public class PayPalActivity extends Activity
 
 			total = new BigDecimal( amount.trim() ).setScale( 5, BigDecimal.ROUND_FLOOR );
 
-			mins[0] = total.toString();
-			mins[1] = "0";
-			mins[2] = "0";
-
 			PayPalPayment thingToBuy = new PayPalPayment( total, "USD", "Adviser Fees", PayPalPayment.PAYMENT_INTENT_SALE );
 			Intent intent = new Intent( PayPalActivity.this, PaymentActivity.class );
 			intent.putExtra( PaymentActivity.EXTRA_PAYMENT, thingToBuy );
@@ -151,20 +145,20 @@ public class PayPalActivity extends Activity
 		{
 			if( resultCode == Activity.RESULT_OK )
 			{
-				PaymentConfirmation confirm = data.getParcelableExtra( PaymentActivity.EXTRA_RESULT_CONFIRMATION );
+				confirm = data.getParcelableExtra( PaymentActivity.EXTRA_RESULT_CONFIRMATION );
 				if( confirm != null )
 				{
 					try
 					{
 						Log.i( "Approval", confirm.toJSONObject().toString() );
 						String url = null;
-						
-						
+
 						// Check if previous transaction needs to be reported
-						if( !sharedPrefStrings[Constants.SP_AMOUNT].equals( Constants.SP_BLANK ) && !sharedPrefStrings[Constants.SP_TRANS_EMAIL].equals( Constants.SP_BLANK ) )
+						if( !sharedPrefStrings[Constants.SP_AMOUNT].equals( Constants.SP_BLANK )
+								&& !sharedPrefStrings[Constants.SP_TRANS_EMAIL].equals( Constants.SP_BLANK ) )
 						{
-							url = "http://dry-dusk-8611.herokuapp.com/savetransaction/"
-									+ URLEncoder.encode( sharedPrefStrings[Constants.SP_TRANS_EMAIL], "UTF-8" ) + "/" + "/"
+							url = "http://dry-dusk-8611.herokuapp.com/paypalapproval/" + URLEncoder.encode( sharedPrefStrings[Constants.SP_APPROVAL], "UTF-8" )
+									+ "/" + URLEncoder.encode( sharedPrefStrings[Constants.SP_TRANS_EMAIL], "UTF-8" ) + "/"
 									+ URLEncoder.encode( sharedPrefStrings[Constants.SP_AMOUNT], "UTF-8" ) + "/"
 									+ URLEncoder.encode( sharedPrefStrings[Constants.SP_DATE], "UTF-8" );
 
@@ -174,6 +168,7 @@ public class PayPalActivity extends Activity
 								public void onSuccess( String response )
 								{
 									Log.d( "HTTP", "onSuccess: " + response );
+									sharedPrefStrings[Constants.SP_APPROVAL] = Constants.SP_BLANK;
 									sharedPrefStrings[Constants.SP_AMOUNT] = Constants.SP_BLANK;
 									sharedPrefStrings[Constants.SP_DATE] = Constants.SP_BLANK;
 									sharedPrefStrings[Constants.SP_TRANS_EMAIL] = Constants.SP_BLANK;
@@ -184,40 +179,16 @@ public class PayPalActivity extends Activity
 							} );
 						}
 
-						// Save current transaction to shared pref first
-						sharedPrefStrings[Constants.SP_APPROVAL] = confirm.toJSONObject().toString();
-						sharedPrefStrings[Constants.SP_AMOUNT] = total.setScale( 5, BigDecimal.ROUND_FLOOR ).toString(); //Set to amount approved
-						sharedPrefStrings[Constants.SP_DATE] = date; 
-						sharedPrefStrings[Constants.SP_TRANS_EMAIL] = sharedPrefStrings[Constants.SP_EMAIL]; //Set to current loged in user
-
-						editor.putString( Constants.EDITOR_EMAIL, UtilHelper.sharedPrefContract( sharedPrefStrings ) );
-						editor.commit();
-
 						BigDecimal bd = dataBase.getAvailableMinutes();
 						bd = bd.add( total.setScale( 5, BigDecimal.ROUND_FLOOR ) );
-						
+
 						dataBase.insertRecord( bd.setScale( 5, BigDecimal.ROUND_FLOOR ).toString(), Long.valueOf( "0" ).longValue(), Long.valueOf( "0" )
 								.longValue() );
 
-						url = "http://dry-dusk-8611.herokuapp.com/paypalapproval/" + URLEncoder.encode( confirm.toJSONObject().toString(), "UTF-8" )
-								+"/"+ URLEncoder.encode( sharedPrefStrings[Constants.SP_EMAIL], "UTF-8" );
-						client.get( this.getApplicationContext(), url, new AsyncHttpResponseHandler()
-						{
-							@Override
-							public void onSuccess( String response )
-							{
-								Log.d( "HTTP", "onSuccess: " + response );
-								sharedPrefStrings[Constants.SP_APPROVAL] = Constants.SP_BLANK;
-
-								editor.putString( Constants.EDITOR_EMAIL, UtilHelper.sharedPrefContract( sharedPrefStrings ) );
-								editor.commit();
-							}
-						} );
-
-						// Save current transaction info
-						url = "http://dry-dusk-8611.herokuapp.com/savetransaction/" + URLEncoder.encode( sharedPrefStrings[Constants.SP_EMAIL], "UTF-8" ) + "/"
+						url = "http://dry-dusk-8611.herokuapp.com/paypalapproval/" + URLEncoder.encode( confirm.toJSONObject().toString(), "UTF-8" ) + "/"
+								+ URLEncoder.encode( sharedPrefStrings[Constants.SP_EMAIL], "UTF-8" ) + "/"
 								+ URLEncoder.encode( total.setScale( 5, BigDecimal.ROUND_FLOOR ).toString(), "UTF-8" ) + "/"
-								+ URLEncoder.encode( sharedPrefStrings[Constants.SP_DATE], "UTF-8" );
+								+ URLEncoder.encode( date, "UTF-8" );
 
 						client.get( this.getApplicationContext(), url, new AsyncHttpResponseHandler()
 						{
@@ -226,26 +197,37 @@ public class PayPalActivity extends Activity
 							{
 								Log.d( "HTTP", "onSuccess: " + response );
 
-								sharedPrefStrings[Constants.SP_AMOUNT] = Constants.SP_BLANK;
-								sharedPrefStrings[Constants.SP_DATE] = Constants.SP_BLANK;
-								sharedPrefStrings[Constants.SP_TRANS_EMAIL] = Constants.SP_BLANK;
+								if( response.equalsIgnoreCase( "Success" ) )
+								{
+									sharedPrefStrings[Constants.SP_APPROVAL] = Constants.SP_BLANK;
+									sharedPrefStrings[Constants.SP_AMOUNT] = Constants.SP_BLANK;
+									sharedPrefStrings[Constants.SP_DATE] = Constants.SP_BLANK;
+									sharedPrefStrings[Constants.SP_TRANS_EMAIL] = Constants.SP_BLANK;
+								}
+								else
+								{
+									sharedPrefStrings[Constants.SP_AMOUNT] = total.setScale( 5, BigDecimal.ROUND_FLOOR ).toString();
+									sharedPrefStrings[Constants.SP_DATE] = date;
+									sharedPrefStrings[Constants.SP_TRANS_EMAIL] = sharedPrefStrings[Constants.SP_EMAIL];
+									sharedPrefStrings[Constants.SP_APPROVAL] = confirm.toJSONObject().toString();
 
+								}
 								editor.putString( Constants.EDITOR_EMAIL, UtilHelper.sharedPrefContract( sharedPrefStrings ) );
 								editor.commit();
 							}
 
-							// Save transaction info to shared pref we will try later
+							// Save transaction info to shared pref we will try
+							// later
 							@Override
 							public void onFailure( int statusCode, Throwable error, String content )
 							{
 								sharedPrefStrings[Constants.SP_AMOUNT] = total.setScale( 5, BigDecimal.ROUND_FLOOR ).toString();
 								sharedPrefStrings[Constants.SP_DATE] = date;
 								sharedPrefStrings[Constants.SP_TRANS_EMAIL] = sharedPrefStrings[Constants.SP_EMAIL];
-								
+								sharedPrefStrings[Constants.SP_APPROVAL] = confirm.toJSONObject().toString();
 								editor.putString( Constants.EDITOR_EMAIL, UtilHelper.sharedPrefContract( sharedPrefStrings ) );
 								editor.commit();
 							}
-
 						} );
 
 						Toast.makeText( getApplicationContext(), "Payment processed Successfully!!", Toast.LENGTH_LONG ).show();
