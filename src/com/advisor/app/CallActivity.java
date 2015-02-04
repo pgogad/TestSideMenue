@@ -25,7 +25,7 @@ public class CallActivity extends Activity
 	private AdvisorDB dataBase;
 	private ProgressDialog progress;
 	private SharedPreferences sharedPref;
-	private String[] shared = new String[2];
+	private String[] shared = new String[Constants.SP_ARRAY_COUNT];
 
 	protected void onCreate( Bundle savedInstanceState )
 	{
