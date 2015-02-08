@@ -60,6 +60,11 @@
             android:label="@string/siane"
             android:parentActivityName="com.advisor.app.login.SigninActivity" />
 
+        <activity
+            android:name="com.advisor.app.disclaimer.DisclaimerActivity"
+            android:label="@string/siane"
+            android:parentActivityName="com.advisor.app.login.SigninActivity" />
+        
         <service
             android:name="com.paypal.android.sdk.payments.PayPalService"
             android:exported="false" />

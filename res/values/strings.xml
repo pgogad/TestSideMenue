@@ -29,6 +29,7 @@
     <string name="forgotpassword_password_text">New Password</string>
     <string name="forgotpassword_password_again">Re-enter password</string>
     <string name="forgotpassword_button_text">Change</string>
+    <string name="disclaimer_title">Disclaimer</string>
     
     <string-array name="nav_drawer_items">
         <item >Call Advisor</item>
