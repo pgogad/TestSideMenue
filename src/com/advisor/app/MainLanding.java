@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
@@ -62,6 +63,7 @@ public class MainLanding extends Activity
 		progress = new ProgressDialog( this );
 		progress.setMessage( "Loading..." );
 		progress.setCancelable( false );
+		
 		async = new AsyncHelper( progress );
 
 		sharedPref = getSharedPreferences( Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE );
@@ -95,12 +97,12 @@ public class MainLanding extends Activity
 		logo.setAdjustViewBounds( true );
 		logo.setImageResource( R.drawable.sian_icon );
 
-		logo.setMaxHeight( 200 );
-		logo.setMaxWidth( 200 );
+		logo.setMaxHeight( 500 );
+		logo.setMaxWidth( 500 );
 		logo.setPadding( 5, 5, 5, 5 );
 		logo.setX( 10 );
 		logo.setY( 10 );
-		// logo.setBackgroundColor( Color.GREEN );
+		//logo.setBackgroundColor( Color.GREEN );
 
 		LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams( LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT );
 		logo.setLayoutParams( llp );
@@ -116,8 +118,11 @@ public class MainLanding extends Activity
 		intro.setX( 10 );
 		// intro.setBackgroundColor( Color.YELLOW );
 		intro.setGravity( Gravity.LEFT );
-		intro.setText( "Clear, accurate and honest readings. \n" + "22+ years experience. I reach deeper than you can imagine!" );
-
+		intro.setTypeface(Typeface.DEFAULT_BOLD);
+		
+		intro.setText( "\nClear \u2605 Accurate \u2605 Caring" );
+		
+		
 		TextView description = new TextView( this );
 
 		description.setWidth( metrics.widthPixels );
@@ -222,7 +227,7 @@ public class MainLanding extends Activity
 				else
 				{
 					drawerLayout.closeDrawer( drawerListView );
-					Toast.makeText( getApplicationContext(), "Please buy minutes in order to call Adviser :-)!!", Toast.LENGTH_LONG ).show();
+					Toast.makeText( getApplicationContext(), "Please buy minutes!!", Toast.LENGTH_LONG ).show();
 				}
 			}
 			else if( option.equalsIgnoreCase( "Login" ) )

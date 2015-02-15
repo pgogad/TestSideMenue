@@ -54,8 +54,8 @@ public class SigninActivity extends Activity
 
 	public void doLogging( View view )
 	{
-		email = emailET.getText().toString();
-		String password = pwdET.getText().toString();
+		email = emailET.getText().toString().trim();
+		String password = pwdET.getText().toString().trim();
 
 		if( UtilHelper.isNotNull( email ) && UtilHelper.isNotNull( password ) )
 		{

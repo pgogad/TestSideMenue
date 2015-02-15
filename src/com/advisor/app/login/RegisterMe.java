@@ -1,7 +1,7 @@
 package com.advisor.app.login;
 
 import java.net.URLEncoder;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.advisor.app.R;
 import com.advisor.app.util.UtilHelper;
 import com.loopj.android.http.AsyncHttpClient;
@@ -39,6 +38,7 @@ public class RegisterMe extends Activity
 		prgDialog = new ProgressDialog( this );
 	}
 
+	@SuppressLint( "DefaultLocale" )
 	public void doRegistration( View view )
 	{
 

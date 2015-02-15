@@ -23,7 +23,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/siane_logo"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/siane"
         android:theme="@style/AppTheme" >
         <activity
