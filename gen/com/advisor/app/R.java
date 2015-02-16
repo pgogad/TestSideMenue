@@ -37,6 +37,7 @@ public final class R {
         public static final int siane_logo=0x7f020006;
         public static final int siane_logo_1=0x7f020007;
         public static final int siane_logo_2=0x7f020008;
+        public static final int text_view=0x7f020009;
     }
     public static final class id {
         public static final int TextView01=0x7f0a0003;

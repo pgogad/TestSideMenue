@@ -131,7 +131,7 @@ public class MainLanding extends Activity
 
 		StringBuffer buff = new StringBuffer();
 
-		buff.append("Science has proven the mind can be influential in the success of medical treatments. If this is so, "
+		buff.append("\n\nScience has proven the mind can be influential in the success of medical treatments. If this is so, "
 				+ "then is it not actively shaping your future whether you are aware of it or not? Optimism has also been "
 				+ "scientifically proven to reduce cortisol, a stress hormone, thus reducing inflammation in the body. It "
 				+ "has also been proven to stimulate the parasympatic nervous system which aides in the process of digestion. "
