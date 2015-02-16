@@ -95,7 +95,7 @@ public class MainLanding extends Activity
 		ImageView logo = new ImageView( this );
 
 		logo.setAdjustViewBounds( true );
-		logo.setImageResource( R.drawable.alisa );
+		logo.setImageResource( R.drawable.greylogo );
 
 		logo.setMaxHeight( 500 );
 		logo.setMaxWidth( 500 );
