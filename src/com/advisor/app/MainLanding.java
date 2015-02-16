@@ -95,7 +95,7 @@ public class MainLanding extends Activity
 		ImageView logo = new ImageView( this );
 
 		logo.setAdjustViewBounds( true );
-		logo.setImageResource( R.drawable.sian_icon );
+		logo.setImageResource( R.drawable.alisa );
 
 		logo.setMaxHeight( 500 );
 		logo.setMaxWidth( 500 );
@@ -117,7 +117,7 @@ public class MainLanding extends Activity
 
 		intro.setX( 10 );
 		// intro.setBackgroundColor( Color.YELLOW );
-		intro.setGravity( Gravity.CENTER );
+		intro.setGravity( Gravity.LEFT );
 		intro.setTypeface(Typeface.DEFAULT_BOLD);
 		
 		intro.setText( "\n \u2605 Coaching Advisor \u2605 " );
@@ -137,7 +137,7 @@ public class MainLanding extends Activity
 				+ "has also been proven to stimulate the parasympatic nervous system which aides in the process of digestion. "
 				+ "Wow! Your mind is an influencer. As your personal coach, I will work to increase your awareness on how you are "
 				+ "shaping your life. Together, we will build a toolkit, personal to you, to help you achieve new personal milestones.")
-				.append( "\n\n\nBelieve Trust Pray Be\n\n" )
+				.append( "\n\n\n\u2605 Believe \u2605 Trust \u2605 Pray \u2605 Be \u2605\n\n" )
 				.append( "~ My 4 essentials to a healthy Life ~" );
 
 		description.setText( buff.toString() );
