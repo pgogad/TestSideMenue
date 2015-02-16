@@ -117,10 +117,10 @@ public class MainLanding extends Activity
 
 		intro.setX( 10 );
 		// intro.setBackgroundColor( Color.YELLOW );
-		intro.setGravity( Gravity.LEFT );
+		intro.setGravity( Gravity.CENTER );
 		intro.setTypeface(Typeface.DEFAULT_BOLD);
 		
-		intro.setText( "\nClear \u2605 Accurate \u2605 Caring" );
+		intro.setText( "\n \u2605 Coaching Advisor \u2605 " );
 		
 		
 		TextView description = new TextView( this );
@@ -131,29 +131,25 @@ public class MainLanding extends Activity
 
 		StringBuffer buff = new StringBuffer();
 
-		buff.append(
-				"Throughout the years, I have been privileged to give thousands of readings with the desire to help people with their life struggles. Given that I am seasoned, "
-						+ "I am also versed in many different skills. Clarity and direction will be the focal point of our readings. I care deeply. This will always be a part of our sessions. "
-						+ "It is my hope you will nurture greater peace, and abundance of light and love with each call.	I am certified in various techniques that include Life Coaching, "
-						+ "certified in both Personal Development and Career Development, at the Master Level - a naturally born intuitive with advance skills in psychic mediumship. "
-						+ "I read on all 7 levels which include psychic remote viewing. Some say I have advanced remote viewing abilities." )
-				.append(
-						"The aim in these sessions is for you to have full understanding of your concern, with a focus on new options and insights so you may generate your own self healing. "
-								+ "We are all capable of growth and change. I go on what I see. I can remote view into the present and timeline into the future. Often information comes through as visual "
-								+ "imprints which is part of my 100% photographic memory. This was tested medically in 2002. I am genetically able to see into the future because of my acute ability of memory precision."
-								+ " Please understand that I am clairaudient, HOWEVER, I do not utilize this in my sessions per choice. I am clairessient as well and can also tap into the multi-dimensions through a timeline grid "
-								+ "I have learned to access. I hope this helps you with your decision to find a considerate and accurate advisor.\n\n" )
-				.append( "Love and Light, \n" ).append( "Sian" );
+		buff.append("Science has proven the mind can be influential in the success of medical treatments. If this is so, "
+				+ "then is it not actively shaping your future whether you are aware of it or not? Optimism has also been "
+				+ "scientifically proven to reduce cortisol, a stress hormone, thus reducing inflammation in the body. It "
+				+ "has also been proven to stimulate the parasympatic nervous system which aides in the process of digestion. "
+				+ "Wow! Your mind is an influencer. As your personal coach, I will work to increase your awareness on how you are "
+				+ "shaping your life. Together, we will build a toolkit, personal to you, to help you achieve new personal milestones.")
+				.append( "\n\n\nBelieve Trust Pray Be\n\n" )
+				.append( "~ My 4 essentials to a healthy Life ~" );
 
 		description.setText( buff.toString() );
 		description.setMaxLines( 30 );
 		description.setPadding( 10, 10, 10, 10 );
+		description.setGravity( Gravity.CENTER );
 		description.setMovementMethod( new ScrollingMovementMethod() );
 		forDescription.addView( description );
 
 		linear.addView( logo );
 		linear.addView( intro );
-
+		
 		parent.addView( linear );
 		parent.addView( forDescription );
 

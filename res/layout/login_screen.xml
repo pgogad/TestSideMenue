@@ -16,7 +16,8 @@
             android:layout_marginLeft="5dip"
             android:layout_marginRight="5dip"
             android:layout_marginTop="5dip"
-            android:text="@string/login_email" />
+            android:text="@string/login_email" 
+            />
 
         <EditText
             android:id="@+id/loginEmail"
@@ -27,7 +28,9 @@
             android:layout_marginRight="5dip"
             android:layout_marginTop="5dip"
             android:hint="@string/login_hint"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress" 
+            
+            />
 
         <TextView
             android:layout_width="fill_parent"
