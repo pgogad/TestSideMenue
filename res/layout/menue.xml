@@ -8,8 +8,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <LinearLayout android:id="@+id/linearLayout2"
-            		  android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0.01"
             android:orientation="vertical" >
@@ -34,14 +35,13 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal" >
 
-
                     <Button
                         android:id="@+id/button1"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:layout_marginTop="2dp"
-                        android:text="@string/toggle" 
-                        android:onClick="showMenu"/>
+                        android:onClick="showMenu"
+                        android:text="@string/toggle" />
                 </LinearLayout>
             </TableRow>
         </LinearLayout>

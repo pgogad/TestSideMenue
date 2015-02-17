@@ -68,18 +68,6 @@ public class MainLanding extends Activity
 
 		sharedPref = getSharedPreferences( Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE );
 		editor = sharedPref.edit();
-		try
-		{
-			if( rates == null )
-			{
-				String[] result = async.execute( "mainpage" ).get();
-				rates = result[Constants.RATE];
-			}
-		}
-		catch( Exception e )
-		{
-			e.printStackTrace();
-		}
 
 		FrameLayout frame = (FrameLayout) findViewById( R.id.content_frame );
 
@@ -168,7 +156,26 @@ public class MainLanding extends Activity
 
 		drawerLayout.setDrawerShadow( R.drawable.drawer_shadow, GravityCompat.START );
 		drawerListView.setOnItemClickListener( new DrawerItemClickListener() );
+		
+		getRate();
 
+	}
+	
+	
+	public void getRate()
+	{
+		try
+		{
+			if( rates == null )
+			{
+				String[] result = async.execute( "mainpage" ).get();
+				rates = result[Constants.RATE];
+			}
+		}
+		catch( Exception e )
+		{
+			e.printStackTrace();
+		}
 	}
 
 	@Override
