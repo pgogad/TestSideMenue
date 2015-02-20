@@ -30,7 +30,7 @@
     <string name="forgotpassword_password_again">Re-enter password</string>
     <string name="forgotpassword_button_text">Change</string>
     <string name="disclaimer_title">Disclaimer</string>
-    <string name="splash_screen">Loading...</string>
+    <string name="splash_screen">Loading&#8230;</string>
     <string name="splash_screen_text_des">SplashScreen</string>
     <string name="splash_screen_img_des">splashimage</string>
     
