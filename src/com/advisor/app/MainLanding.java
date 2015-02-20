@@ -69,6 +69,9 @@ public class MainLanding extends Activity
 		sharedPref = getSharedPreferences( Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE );
 		editor = sharedPref.edit();
 
+		Intent myIntent = getIntent();
+		rates = myIntent.getStringExtra( "rate" );
+		
 		FrameLayout frame = (FrameLayout) findViewById( R.id.content_frame );
 
 		LinearLayout parent = new LinearLayout( this );
@@ -83,7 +86,7 @@ public class MainLanding extends Activity
 		ImageView logo = new ImageView( this );
 
 		logo.setAdjustViewBounds( true );
-		logo.setImageResource( R.drawable.greylogo );
+		logo.setImageResource( R.drawable.alisav );
 
 		logo.setMaxHeight( 500 );
 		logo.setMaxWidth( 500 );
@@ -108,7 +111,7 @@ public class MainLanding extends Activity
 		intro.setGravity( Gravity.LEFT );
 		intro.setTypeface(Typeface.DEFAULT_BOLD);
 		
-		intro.setText( "\n \u2605 Coaching Advisor \u2605 " );
+		intro.setText( "\n \u2605 Authentic Leadership \u2605 " );
 		
 		
 		TextView description = new TextView( this );
@@ -119,19 +122,14 @@ public class MainLanding extends Activity
 
 		StringBuffer buff = new StringBuffer();
 
-		buff.append("\n\nScience has proven the mind can be influential in the success of medical treatments. If this is so, "
-				+ "then is it not actively shaping your future whether you are aware of it or not? Optimism has also been "
-				+ "scientifically proven to reduce cortisol, a stress hormone, thus reducing inflammation in the body. It "
-				+ "has also been proven to stimulate the parasympatic nervous system which aides in the process of digestion. "
-				+ "Wow! Your mind is an influencer. As your personal coach, I will work to increase your awareness on how you are "
-				+ "shaping your life. Together, we will build a toolkit, personal to you, to help you achieve new personal milestones.")
-				.append( "\n\n\n\u2605 Believe \u2605 Trust \u2605 Pray \u2605 Be \u2605\n\n" )
-				.append( "~ My 4 essentials to a healthy Life ~" );
+		buff.append( "\n\nCoaching focuses on helping clients on a deeply personal level. It is a rapport built on teamwork. A Life Coach believes in you and will inspire you to believe in yourself.\n\n" )
+		.append( "Our role is to motivate and help you become confident and self assured. From the simplest task to the most complicated one, we are there to advise you at the level you need us to be.\n\n" )
+		.append( "As your Life Coach and Advisor, I am present for you fully. Together, we will build a personal toolkit, designed to reshape your thinking process and thus, your future.You will emerge as the architect and designer of your own “Life-House!”" );
 
 		description.setText( buff.toString() );
 		description.setMaxLines( 30 );
 		description.setPadding( 10, 10, 10, 10 );
-		description.setGravity( Gravity.CENTER );
+		description.setGravity( Gravity.CENTER_HORIZONTAL );
 		description.setMovementMethod( new ScrollingMovementMethod() );
 		forDescription.addView( description );
 

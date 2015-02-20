@@ -30,16 +30,19 @@ public final class R {
     public static final class drawable {
         public static final int alisa=0x7f020000;
         public static final int alisa_logo=0x7f020001;
-        public static final int drawer_shadow=0x7f020002;
-        public static final int greylogo=0x7f020003;
-        public static final int ic_drawer=0x7f020004;
-        public static final int ic_launcher=0x7f020005;
-        public static final int ic_launcher_1=0x7f020006;
-        public static final int sian_icon=0x7f020007;
-        public static final int siane_logo=0x7f020008;
-        public static final int siane_logo_1=0x7f020009;
-        public static final int siane_logo_2=0x7f02000a;
-        public static final int text_view=0x7f02000b;
+        public static final int alisav=0x7f020002;
+        public static final int drawer_shadow=0x7f020003;
+        public static final int greylogo=0x7f020004;
+        public static final int ic_drawer=0x7f020005;
+        public static final int ic_launcher=0x7f020006;
+        public static final int ic_launcher_1=0x7f020007;
+        public static final int ic_launcher_2=0x7f020008;
+        public static final int sian_icon=0x7f020009;
+        public static final int siane_logo=0x7f02000a;
+        public static final int siane_logo_1=0x7f02000b;
+        public static final int siane_logo_2=0x7f02000c;
+        public static final int splashscreen=0x7f02000d;
+        public static final int text_view=0x7f02000e;
     }
     public static final class id {
         public static final int TextView01=0x7f0a0003;
@@ -49,8 +52,8 @@ public final class R {
         public static final int TextView05=0x7f0a0007;
         public static final int TextView06=0x7f0a0008;
         public static final int TextView07=0x7f0a0009;
-        public static final int action_home=0x7f0a002d;
-        public static final int action_settings=0x7f0a002c;
+        public static final int action_home=0x7f0a002e;
+        public static final int action_settings=0x7f0a002d;
         public static final int amount_options=0x7f0a001e;
         public static final int btnLogin=0x7f0a0015;
         public static final int button1=0x7f0a001c;
@@ -83,6 +86,7 @@ public final class R {
         public static final int registerName=0x7f0a0027;
         public static final int registerPassword=0x7f0a0029;
         public static final int registerPasswordAgain=0x7f0a002a;
+        public static final int splash_text=0x7f0a002c;
         public static final int tableRow1=0x7f0a001a;
         public static final int ten_dollars=0x7f0a0020;
         public static final int textView_paypal=0x7f0a0024;
@@ -101,6 +105,7 @@ public final class R {
         public static final int menue=0x7f030008;
         public static final int pay_pal=0x7f030009;
         public static final int register_me=0x7f03000a;
+        public static final int splash_screen=0x7f03000b;
     }
     public static final class menu {
         public static final int main=0x7f090000;
@@ -123,7 +128,7 @@ public final class R {
         public static final int login_email=0x7f06000c;
         public static final int login_hint=0x7f06000d;
         public static final int login_password=0x7f06000e;
-        public static final int option1=0x7f06001d;
+        public static final int option1=0x7f060020;
         public static final int payPalbtn=0x7f060005;
         public static final int pic_des=0x7f060006;
         public static final int register_button_reset_password=0x7f060017;
@@ -135,6 +140,9 @@ public final class R {
         public static final int register_password=0x7f060014;
         public static final int register_password_again=0x7f060015;
         public static final int siane=0x7f060004;
+        public static final int splash_screen=0x7f06001d;
+        public static final int splash_screen_img_des=0x7f06001f;
+        public static final int splash_screen_text_des=0x7f06001e;
         public static final int toggle=0x7f060003;
     }
     public static final class style {
