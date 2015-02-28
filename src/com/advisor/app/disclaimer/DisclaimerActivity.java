@@ -46,7 +46,7 @@ public class DisclaimerActivity extends Activity
                 +"Carraro Inc takes reasonable steps to keep information from coaching sessions confidential. Communications between Carraro Inc and client containing " +
                 "information related to coaching sessions might be unlawfully intercepted by third parties. Carraro Inc nor any of our third party " +
                 "service providers can ensure or warrant the security of any information transmitted over the internet or via The App. Any such transmission is done at own risk.\n\n"
-                +"Coaching and The App are not a substitute for medical, religious, financial,psychological, psychiatric, therapeutic or other diagnosis for any medicine. " +
+                +"Coaching and The App are not a substitute for medical, religious, financial, psychological, psychiatric, therapeutic or other diagnosis for any medicine. " +
                 "You should independently assess any decisions, actions or inactions resulting from or relating to the app or a coaching experience based on medical, " +
                 "psychological, psychiatric, legal, religious, personnel, personal, financial, tax or other advice as applicable.\n\n";
 
