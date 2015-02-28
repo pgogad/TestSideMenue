@@ -56,6 +56,7 @@ public class CallActivity extends Activity
 		try
 		{
 			phone.disconnect();
+			phone = null;
 			super.onBackPressed();
 			overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
 		}
@@ -100,8 +101,11 @@ public class CallActivity extends Activity
 
 	public void onDestroy()
 	{
+		if( null != phone )
+		{
+			phone.disconnect();
+		}
 		super.onDestroy();
-		phone = null;
 		if( Twilio.isInitialized() )
 		{
 			Twilio.shutdown();

@@ -87,7 +87,7 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 			parameters.put( "PhoneNumber", phoneNumber );
 			parameters.put( "timeLimit", String.valueOf( amount * 60 ) );
 
-			if(null != device)
+			if( null != device )
 			{
 				connection = device.connect( parameters, this );
 			}
@@ -103,8 +103,17 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 		}
 	}
 
+	public boolean getConnectionState()
+	{
+		return (connection.getState() == State.CONNECTED || connection.getState() == State.CONNECTING || connection.getState() == State.PENDING);
+	}
+
 	public void disconnect()
 	{
+		if( null != connection && getConnectionState() )
+		{
+			connection.disconnect();
+		}
 		onDisconnect();
 	}
 
@@ -136,6 +145,9 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 		{
 			device.release();
 		}
+
+		startTime = 0l;
+		endTime = 0l;
 	}
 
 	@Override
@@ -188,15 +200,19 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 
 		Log.d( TAG, "Minutes to be charged : " + minutes + " mins" );
 
-		BigDecimal amount = database.getAvailableMinutes();
-		BigDecimal rate = new BigDecimal( rates ).setScale( 5, BigDecimal.ROUND_FLOOR );
-
-		for( int i = 0; i < minutes; i++ )
+		if( minutes != 0 )
 		{
-			amount = amount.subtract( rate ).setScale( 5, BigDecimal.ROUND_FLOOR );
+
+			BigDecimal amount = database.getAvailableMinutes();
+			BigDecimal rate = new BigDecimal( rates ).setScale( 5, BigDecimal.ROUND_FLOOR );
+
+			for( int i = 0; i < minutes; i++ )
+			{
+				amount = amount.subtract( rate ).setScale( 5, BigDecimal.ROUND_FLOOR );
+			}
+			Log.d( TAG, "Amount remaining : " + amount.toString() );
+			database.insertRecord( amount.toString(), startTime, endTime );
 		}
-		Log.d( TAG, "Amount remaining : " + amount.toString() );
-		database.insertRecord( amount.toString(), startTime, endTime );
 		shutDown();
 	}
 }
