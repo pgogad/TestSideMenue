@@ -19,7 +19,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
 
     <application
         android:allowBackup="true"
@@ -29,11 +29,14 @@
         <activity
             android:name="com.advisor.app.MainLanding"
             android:label="@string/siane" >
-            <intent-filter>
+
+            <!--
+                 <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>
+            -->
         </activity>
         <activity
             android:name="com.advisor.app.CallActivity"
@@ -43,12 +46,12 @@
             android:name="com.advisor.app.payment.PayPalActivity"
             android:label="@string/siane"
             android:parentActivityName="com.advisor.app.MainLanding" />
-<!--
+        <!--
         <activity
             android:name="com.advisor.app.login.SigninActivity"
             android:label="@string/siane"
-            android:parentActivityName="com.advisor.app.MainLanding" />
--->
+            android:parentActivityName="com.advisor.app.MainLanding" />
+        -->
         <activity
             android:name="com.advisor.app.login.SigninActivity"
             android:label="@string/siane"
@@ -61,14 +64,19 @@
             android:name="com.advisor.app.login.ForgotPassword"
             android:label="@string/siane"
             android:parentActivityName="com.advisor.app.login.SigninActivity" />
-
         <activity
             android:name="com.advisor.app.disclaimer.DisclaimerActivity"
             android:label="@string/siane"
             android:parentActivityName="com.advisor.app.login.SigninActivity" />
-        
-         <activity android:name="com.advisor.app.SplashScreen"
-            android:label="@string/siane"/>
+        <activity
+            android:name="com.advisor.app.SplashScreen"
+            android:label="@string/siane" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <service
             android:name="com.paypal.android.sdk.payments.PayPalService"

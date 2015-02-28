@@ -53,8 +53,8 @@ public final class R {
         public static final int TextView05=0x7f0a0007;
         public static final int TextView06=0x7f0a0008;
         public static final int TextView07=0x7f0a0009;
-        public static final int action_home=0x7f0a0030;
-        public static final int action_settings=0x7f0a002f;
+        public static final int action_home=0x7f0a002f;
+        public static final int action_settings=0x7f0a002e;
         public static final int amount_options=0x7f0a0020;
         public static final int btnLogin=0x7f0a0017;
         public static final int button1=0x7f0a001e;
@@ -89,7 +89,6 @@ public final class R {
         public static final int registerPasswordAgain=0x7f0a002c;
         public static final int relativeLayout_description_ml=0x7f0a0012;
         public static final int relativeLayout_intro_ml=0x7f0a0011;
-        public static final int splash_text=0x7f0a002e;
         public static final int tableRow1=0x7f0a001c;
         public static final int ten_dollars=0x7f0a0022;
         public static final int textView_paypal=0x7f0a0026;

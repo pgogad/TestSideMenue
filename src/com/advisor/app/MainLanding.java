@@ -63,7 +63,7 @@ public class MainLanding extends Activity
 		buff.append( "\n\nCoaching focuses on helping clients on a deeply personal level. It is a rapport built on teamwork. A Life Coach believes in you and will inspire you to believe in yourself.\n\n" )
 		.append( "Our role is to motivate and help you become confident and self assured. It is based on positive psychology, a form of humanistic psychology. ")
         .append("From the simplest task to the most complicated one, we are here to advise you at the level you need us to be.\n\n" )
-		.append( "As your Personal Coach, I am fully present. Together, we will build a personal toolkit, designed to reshape your thinking process and need for adaptation and thus, changing")
+		.append( "As your Personal Coach, I am fully present. Together, we will build a personal toolkit, designed to reshape your thinking process and need for adaptation and thus, changing ")
         .append("your future. You will emerge as the architect and designer of your own “Life-House!”\n\n" )
         .append("Copyright 2015");
 
