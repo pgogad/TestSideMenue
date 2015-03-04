@@ -89,7 +89,8 @@ public class CallActivity extends Activity
 				login.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP );
 				startActivity( login );
 				overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
-				fileList();
+				//fileList();
+				finish();
 			}
 
 		}
