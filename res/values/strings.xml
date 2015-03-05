@@ -33,14 +33,16 @@
     <string name="splash_screen">Loading&#8230;</string>
     <string name="splash_screen_text_des">SplashScreen</string>
     <string name="splash_screen_img_des">splashimage</string>
-    
+    <string name="help_title">Help</string>
+
     <string-array name="nav_drawer_items">
-        <item >Call Advisor</item>
-        <item >Add Minutes</item>
         <item >Login</item>
+        <item >Add Minutes</item>
+        <item >Call Advisor</item>
         <item >Register</item>
-        <item >Log Out</item>
+        <item>Help</item>
         <item >Disclaimer</item>
+        <item >Log Out</item>
     </string-array>
     <string name="option1">Call Advisor</string>
 
