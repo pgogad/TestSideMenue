@@ -38,10 +38,10 @@ import com.paypal.android.sdk.payments.PaymentConfirmation;
 
 public class PayPalActivity extends Activity
 {
-	private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_SANDBOX;
-	private static final String CONFIG_CLIENT_ID = "AboZuBA-iaS7l3ii-ZyDTdkEdO5Eas9BCycr_HTiZ1-uTjICrUVs4mWARVG7";
-	//private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_PRODUCTION;
-	//private static final String CONFIG_CLIENT_ID ="AfHAbBCjL5pMP4LNlD3FdvhUsRuD3vPK42MnGowUXEUNdIGBzkNdHmkNCCSN";
+	//private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_SANDBOX;
+	//private static final String CONFIG_CLIENT_ID = "AboZuBA-iaS7l3ii-ZyDTdkEdO5Eas9BCycr_HTiZ1-uTjICrUVs4mWARVG7";
+	private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_PRODUCTION;
+	private static final String CONFIG_CLIENT_ID ="AfHAbBCjL5pMP4LNlD3FdvhUsRuD3vPK42MnGowUXEUNdIGBzkNdHmkNCCSN";
 	private static final int REQUEST_CODE_PAYMENT = 1;
 
 	private AdvisorDB dataBase;

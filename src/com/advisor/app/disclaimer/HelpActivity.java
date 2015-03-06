@@ -18,11 +18,12 @@ public class HelpActivity extends Activity
 
         StringBuffer buff = new StringBuffer();
         buff.append("Helpful Hints\n\n")
-        .append("In order to place a call, you must have an active PayPal account. We do not store your info. But you will need it to register.\n\n")
+        .append("In order to place a call, you must have an active PayPal account. We do not store your info. But you will need it for making payments.\n\n")
         .append("Once registered you can add funds.\n\n")
-        .append("In order to place your call, you will need to deposit the minimum rate allowed for the app to connect you. Please see your advisor's per min rate.\n\n")
+        .append("In order to place your call, you will need to deposit the minimum amount required. Please see your Advisor's rate.\n\n")
         .append("You may place your call as soon as you have added funds.\n\n")
-        .append("Once your account is again at a 0 balance, the call will drop and you will have to repeat the process. If you chose to end the call and still have funds in your account, the balance will store for you to use for another time.\n\n")
+        .append("Once your account is again at a $0.00 balance or the balance drops below the Advisor's per minute rate, the call will drop and you will have to repeat the process. If you choose to end the call and still have funds in your account, "
+        		+ "the balance will store for you to use for another time.\n\n")
         .append("If your advisor is on a call, you will be placed in priority sequence on hold.\n\n")
         .append("We hope you enjoy your call.\n\n");
 
