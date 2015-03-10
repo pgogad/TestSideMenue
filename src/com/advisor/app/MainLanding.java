@@ -117,6 +117,7 @@ public class MainLanding extends Activity
 					{
 						Log.d( "HTTP", "onSuccess: " + response );
 						rate.setText( "Rate per minute $" + response + " USD" );
+						rates = response;
 						progress.dismiss();
 					}
 
@@ -179,70 +180,123 @@ public class MainLanding extends Activity
 		{
 			String option = (String) ((TextView) view).getText();
 
-			if( option.equalsIgnoreCase( "Add Minutes" ) )
+			if( null == rates && option.equalsIgnoreCase( "Call Advisor" ) )
 			{
-				Intent intent = new Intent( getBaseContext(), com.advisor.app.payment.PayPalActivity.class );
-				startActivity( intent );
-				overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
-				drawerLayout.closeDrawer( drawerListView );
-			}
-			else if( option.equalsIgnoreCase( "Call Advisor" ) )
-			{
-				minutes = UtilHelper.getMinutesRemaining( dataBase.getAvailableMinutes(), rates );
-				if( Integer.valueOf( minutes ) > 0 )
+
+				String url = "http://dry-dusk-8611.herokuapp.com/rates";
+				progress.show();
+				client.get( getApplicationContext(), url, new AsyncHttpResponseHandler()
 				{
-					Intent intent = new Intent( getBaseContext(), CallActivity.class );
+					@Override
+					public void onSuccess( String response )
+					{
+						Log.d( "HTTP", "onSuccess: " + response );
+						rates = response;
+						minutes = UtilHelper.getMinutesRemaining( dataBase.getAvailableMinutes(), rates );
+						rate.setText( "Rate per minute $" + response + " USD" );
+						if( Integer.valueOf( minutes ) > 0 )
+						{
+							Intent intent = new Intent( getBaseContext(), CallActivity.class );
+							startActivity( intent );
+							drawerLayout.closeDrawer( drawerListView );
+							overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
+						}
+						else
+						{
+							drawerLayout.closeDrawer( drawerListView );
+							Toast.makeText( getApplicationContext(), "Please buy minutes!!", Toast.LENGTH_LONG ).show();
+						}
+						progress.dismiss();
+					}
+
+					@Override
+					public void onFailure( int statusCode, Throwable error, String content )
+					{
+						progress.dismiss();
+						rate.setText( "Rate not available" );
+						if( statusCode == 404 )
+						{
+							Toast.makeText( getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG ).show();
+						}
+						else if( statusCode == 500 )
+						{
+							Toast.makeText( getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG ).show();
+						}
+						else
+						{
+							Toast.makeText( getApplicationContext(), "Unexpected Error occcured! Please try again later", Toast.LENGTH_LONG ).show();
+						}
+					}
+				} );
+			}
+			else
+			{
+
+				if( option.equalsIgnoreCase( "Add Minutes" ) )
+				{
+					Intent intent = new Intent( getBaseContext(), com.advisor.app.payment.PayPalActivity.class );
 					startActivity( intent );
+					overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
+					drawerLayout.closeDrawer( drawerListView );
+				}
+				else if( option.equalsIgnoreCase( "Call Advisor" ) )
+				{
+					minutes = UtilHelper.getMinutesRemaining( dataBase.getAvailableMinutes(), rates );
+					if( Integer.valueOf( minutes ) > 0 )
+					{
+						Intent intent = new Intent( getBaseContext(), CallActivity.class );
+						startActivity( intent );
+						drawerLayout.closeDrawer( drawerListView );
+						overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
+					}
+					else
+					{
+						drawerLayout.closeDrawer( drawerListView );
+						Toast.makeText( getApplicationContext(), "Please buy minutes!!", Toast.LENGTH_LONG ).show();
+					}
+				}
+				else if( option.equalsIgnoreCase( "Login" ) )
+				{
+					Intent login = new Intent( getBaseContext(), SigninActivity.class );
+					startActivity( login );
+					drawerLayout.closeDrawer( drawerListView );
+					overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
+				}
+				else if( option.equalsIgnoreCase( "Register" ) )
+				{
+					Intent register = new Intent( getBaseContext(), RegisterMe.class );
+					startActivity( register );
+					drawerLayout.closeDrawer( drawerListView );
+					overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
+				}
+				else if( option.equalsIgnoreCase( "Log Out" ) )
+				{
+
+					String[] shared = UtilHelper.sharedPrefExpand( sharedPref.getString( Constants.EDITOR_EMAIL, Constants.SP_DEFAULT ) );
+					shared[Constants.SP_EMAIL] = Constants.SP_BLANK;
+					editor.putString( Constants.EDITOR_EMAIL, UtilHelper.sharedPrefContract( shared ) );
+					editor.commit();
+					Toast.makeText( getApplicationContext(), "You have logged out successfully!!", Toast.LENGTH_LONG ).show();
+					drawerLayout.closeDrawer( drawerListView );
+				}
+				else if( option.equalsIgnoreCase( "Disclaimer" ) )
+				{
+					Intent disclaimer = new Intent( getBaseContext(), DisclaimerActivity.class );
+					startActivity( disclaimer );
+					drawerLayout.closeDrawer( drawerListView );
+					overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
+				}
+				else if( option.equalsIgnoreCase( "Help" ) )
+				{
+					Intent help = new Intent( getBaseContext(), HelpActivity.class );
+					startActivity( help );
 					drawerLayout.closeDrawer( drawerListView );
 					overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
 				}
 				else
 				{
-					drawerLayout.closeDrawer( drawerListView );
-					Toast.makeText( getApplicationContext(), "Please buy minutes!!", Toast.LENGTH_LONG ).show();
+					overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
 				}
-			}
-			else if( option.equalsIgnoreCase( "Login" ) )
-			{
-				Intent login = new Intent( getBaseContext(), SigninActivity.class );
-				startActivity( login );
-				drawerLayout.closeDrawer( drawerListView );
-				overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
-			}
-			else if( option.equalsIgnoreCase( "Register" ) )
-			{
-				Intent register = new Intent( getBaseContext(), RegisterMe.class );
-				startActivity( register );
-				drawerLayout.closeDrawer( drawerListView );
-				overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
-			}
-			else if( option.equalsIgnoreCase( "Log Out" ) )
-			{
-
-				String[] shared = UtilHelper.sharedPrefExpand( sharedPref.getString( Constants.EDITOR_EMAIL, Constants.SP_DEFAULT ) );
-				shared[Constants.SP_EMAIL] = Constants.SP_BLANK;
-				editor.putString( Constants.EDITOR_EMAIL, UtilHelper.sharedPrefContract( shared ) );
-				editor.commit();
-				Toast.makeText( getApplicationContext(), "You have logged out successfully!!", Toast.LENGTH_LONG ).show();
-				drawerLayout.closeDrawer( drawerListView );
-			}
-			else if( option.equalsIgnoreCase( "Disclaimer" ) )
-			{
-				Intent disclaimer = new Intent( getBaseContext(), DisclaimerActivity.class );
-				startActivity( disclaimer );
-				drawerLayout.closeDrawer( drawerListView );
-				overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
-			}
-			else if( option.equalsIgnoreCase( "Help" ) )
-			{
-				Intent help = new Intent( getBaseContext(), HelpActivity.class );
-				startActivity( help );
-				drawerLayout.closeDrawer( drawerListView );
-				overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
-			}
-			else
-			{
-				overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
 			}
 		}
 	}
