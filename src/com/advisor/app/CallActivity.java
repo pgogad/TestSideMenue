@@ -40,7 +40,7 @@ public class CallActivity extends Activity
 
 		try
 		{
-			phone = new PhoneHelper( CallActivity.this, asyncHelper.execute( "call", dataBase.getAvailableMinutes().toString() ).get() );
+			phone = new PhoneHelper( CallActivity.this, asyncHelper.execute( "call", dataBase.getAvailableMinutes().toString() ).get(), progress );
 		}
 		catch( Exception ex )
 		{
@@ -57,8 +57,8 @@ public class CallActivity extends Activity
 		{
 			phone.disconnect();
 			phone = null;
-			super.onBackPressed();
-			overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
+			//super.onBackPressed();
+			//overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
 		}
 		catch( Exception ex )
 		{
@@ -78,7 +78,7 @@ public class CallActivity extends Activity
 				}
 				else
 				{
-					phone = new PhoneHelper( CallActivity.this, asyncHelper.execute( "call", dataBase.getAvailableMinutes().toString() ).get() );
+					phone = new PhoneHelper( CallActivity.this, asyncHelper.execute( "call", dataBase.getAvailableMinutes().toString() ).get(), progress );
 					phone.connect();
 				}
 			}
@@ -89,7 +89,6 @@ public class CallActivity extends Activity
 				login.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP );
 				startActivity( login );
 				overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
-				//fileList();
 				finish();
 			}
 

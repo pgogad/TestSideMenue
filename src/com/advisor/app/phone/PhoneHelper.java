@@ -4,12 +4,15 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.advisor.app.db.AdvisorDB;
 import com.advisor.app.util.UtilHelper;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.twilio.client.Connection;
 import com.twilio.client.Connection.State;
 import com.twilio.client.ConnectionListener;
@@ -32,8 +35,9 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 	private AdvisorDB database;
 	private String rates;
 	private String phoneNumber;
+	private AsyncHttpClient client = new AsyncHttpClient();
 
-	public PhoneHelper( Context context, String[] param )
+	public PhoneHelper( Context context, String[] param, ProgressDialog dialoug )
 	{
 		this.database = new AdvisorDB( context );
 		this.context = context;
@@ -213,6 +217,25 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 			Log.d( TAG, "Amount remaining : " + amount.toString() );
 			database.insertRecord( amount.toString(), startTime, endTime );
 		}
+		reportTransaction();
 		shutDown();
+	}
+
+	private void reportTransaction()
+	{
+		client.get( this.context, "http://dry-dusk-8611.herokuapp.com/ping", new AsyncHttpResponseHandler()
+		{
+			@Override
+			public void onSuccess( String response )
+			{
+				Log.d( "PhoneHelper", "onSuccess: " + response );
+			}
+
+			@Override
+			public void onFailure( int statusCode, Throwable error, String content )
+			{
+				Log.d( "PhoneHelper", "Failure" );
+			}
+		} );
 	}
 }
