@@ -115,7 +115,7 @@ public class MainLanding extends Activity
 					@Override
 					public void onSuccess( String response )
 					{
-						Log.d( "HTTP", "onSuccess: " + response );
+						Log.d( "MainLanding", "MainLanding onSuccess: " + response );
 						rate.setText( "Rate per minute $" + response + " USD" );
 						rates = response;
 						progress.dismiss();

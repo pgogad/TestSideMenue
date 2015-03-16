@@ -35,6 +35,8 @@ public class CallActivity extends Activity
 		progress = new ProgressDialog( this );
 		progress.setMessage( "Loading..." );
 		progress.setCancelable( false );
+		sharedPref = getSharedPreferences( Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE );
+		shared = UtilHelper.sharedPrefExpand( sharedPref.getString( Constants.EDITOR_EMAIL, Constants.SP_DEFAULT ) );
 
 		asyncHelper = new AsyncHelper( progress );
 
@@ -46,9 +48,6 @@ public class CallActivity extends Activity
 		{
 			Log.e( "CallActivity", "Error occured while executing async task" );
 		}
-
-		sharedPref = getSharedPreferences( Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE );
-		shared = UtilHelper.sharedPrefExpand( sharedPref.getString( Constants.EDITOR_EMAIL, Constants.SP_DEFAULT ) );
 	}
 
 	public void hangupCall( View view )
@@ -57,8 +56,7 @@ public class CallActivity extends Activity
 		{
 			phone.disconnect();
 			phone = null;
-			//super.onBackPressed();
-			//overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
+			finish();
 		}
 		catch( Exception ex )
 		{
@@ -74,12 +72,12 @@ public class CallActivity extends Activity
 			{
 				if( null != phone )
 				{
-					phone.connect();
+					phone.connect( shared[Constants.SP_EMAIL] );
 				}
 				else
 				{
 					phone = new PhoneHelper( CallActivity.this, asyncHelper.execute( "call", dataBase.getAvailableMinutes().toString() ).get(), progress );
-					phone.connect();
+					phone.connect( shared[Constants.SP_EMAIL] );
 				}
 			}
 			else
@@ -104,6 +102,7 @@ public class CallActivity extends Activity
 		if( null != phone )
 		{
 			phone.disconnect();
+			phone = null;
 		}
 		super.onDestroy();
 		if( Twilio.isInitialized() )
@@ -115,7 +114,5 @@ public class CallActivity extends Activity
 	public void onBackPressed()
 	{
 		super.onBackPressed();
-		overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
-		finish();
 	}
 }

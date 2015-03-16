@@ -1,6 +1,8 @@
 package com.advisor.app.phone;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +38,8 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 	private String rates;
 	private String phoneNumber;
 	private AsyncHttpClient client = new AsyncHttpClient();
+	private BigDecimal amountToCharge = BigDecimal.ZERO;
+	private String emailId;
 
 	public PhoneHelper( Context context, String[] param, ProgressDialog dialoug )
 	{
@@ -61,9 +65,10 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 		Log.e( TAG, "Twilio SDK couldn't start: " + arg0.getLocalizedMessage() );
 	}
 
-	public void connect()
+	public void connect( String email )
 	{
 
+		emailId = email;
 		if( !Twilio.isInitialized() )
 		{
 			Twilio.initialize( context, this );
@@ -206,36 +211,52 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 
 		if( minutes != 0 )
 		{
-
 			BigDecimal amount = database.getAvailableMinutes();
 			BigDecimal rate = new BigDecimal( rates ).setScale( 5, BigDecimal.ROUND_FLOOR );
+
+			//amountToCharge = rate;
 
 			for( int i = 0; i < minutes; i++ )
 			{
 				amount = amount.subtract( rate ).setScale( 5, BigDecimal.ROUND_FLOOR );
+				amountToCharge = amountToCharge.add( rate ).setScale( 5, BigDecimal.ROUND_FLOOR );
 			}
 			Log.d( TAG, "Amount remaining : " + amount.toString() );
+			Log.d( TAG, "Amount to charge : " + amountToCharge.toString() );
+			reportTransaction( amountToCharge );
 			database.insertRecord( amount.toString(), startTime, endTime );
 		}
-		reportTransaction();
+
 		shutDown();
 	}
 
-	private void reportTransaction()
+	private void reportTransaction( BigDecimal amountToCharge )
 	{
-		client.get( this.context, "http://dry-dusk-8611.herokuapp.com/ping", new AsyncHttpResponseHandler()
+		// {email}/{amount}/{advisorId}/{rate}
+		try
 		{
-			@Override
-			public void onSuccess( String response )
-			{
-				Log.d( "PhoneHelper", "onSuccess: " + response );
-			}
+			String options = "/amountcharged/" + URLEncoder.encode( emailId, "UTF-8" ) + "/" + URLEncoder.encode( amountToCharge.toString(), "UTF-8" ) + "/"
+					+ URLEncoder.encode( "1", "UTF-8" ) + "/" + URLEncoder.encode( rates, "UTF-8" );
 
-			@Override
-			public void onFailure( int statusCode, Throwable error, String content )
+			client.get( this.context, "http://dry-dusk-8611.herokuapp.com" + options, new AsyncHttpResponseHandler()
 			{
-				Log.d( "PhoneHelper", "Failure" );
-			}
-		} );
+				@Override
+				public void onSuccess( String response )
+				{
+					Log.d( "PhoneHelper", "PhoneHelper onSuccess: " + response );
+				}
+
+				@Override
+				public void onFailure( int statusCode, Throwable error, String content )
+				{
+					Log.d( "PhoneHelper", "PhoneHelper Failure" );
+				}
+			} );
+		}
+		catch( UnsupportedEncodingException e )
+		{
+			e.printStackTrace();
+		}
+
 	}
 }
