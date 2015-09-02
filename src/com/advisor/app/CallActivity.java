@@ -42,7 +42,7 @@ public class CallActivity extends Activity
 
 		try
 		{
-			phone = new PhoneHelper( CallActivity.this, asyncHelper.execute( "call", dataBase.getAvailableMinutes().toString() ).get(), progress );
+			phone = new PhoneHelper( getApplicationContext(), asyncHelper.execute( "call", dataBase.getAvailableMinutes().toString() ).get(), progress );
 		}
 		catch( Exception ex )
 		{

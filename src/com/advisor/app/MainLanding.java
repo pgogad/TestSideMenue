@@ -66,13 +66,15 @@ public class MainLanding extends Activity
 		StringBuffer buff = new StringBuffer();
 
 		buff.append(
-				"\n\nCoaching focuses on helping clients on a deeply personal level. It is a rapport built on teamwork. A Life Coach believes in you and will inspire you to believe in yourself.\n\n" )
+				"\n\nIntuitive coaching focuses on helping clients on a deeply personal level. As an Advisor, "
+						+ "my goal is to help you believe in yourself. And at times, help you find yourself again.\n\n" )
 				.append(
-						"My role is to motivate and help you become confident and self assured. It is based on positive psychology, a form of humanistic psychology. " )
-				.append( "From the simplest task to the most complicated one, I am here to advise you at the level you need me to be.\n\n" )
-				.append(
-						"As your Personal Coach, I am fully present. Together, we will build a personal toolkit, designed to reshape your thinking process and need for adaptation and thus, improve " )
-				.append( "your future. You will emerge as the architect and designer of your own “Life-House!”\n\n" ).append( "\u00A9 2015" );
+						"My attention will be to help you balance your life goals, motivate you to be confident and self assured.  From the simplest task to the most complicated, "
+								+ "I am here to advise you at the level you need me to be. I often use my psychic ability, along with empathy and intuition, "
+								+ "to help you carve out a better future.\n\n" )
+				.append( "As your Advisor, I am fully present. We can build your personal toolkit. We can design it any way you’d like. "
+						+ "Reshape, adapt and move things forward. I can be as psychic or intuitive as you would like me to be!\n\n" )
+				.append( "\u00A9 2014 - 2015" );
 
 		rate = (TextView) findViewById( R.id.relativeLayout_rate_ml );
 		rate.setTextSize( 15 );
@@ -108,9 +110,9 @@ public class MainLanding extends Activity
 		{
 			if( rates == null )
 			{
-				String url = "http://dry-dusk-8611.herokuapp.com/rates";
+				// String url = "http://dry-dusk-8611.herokuapp.com/rates";
 				progress.show();
-				client.get( this.getApplicationContext(), url, new AsyncHttpResponseHandler()
+				client.get( this.getApplicationContext(), Constants.URL_BASE + "/rates", new AsyncHttpResponseHandler()
 				{
 					@Override
 					public void onSuccess( String response )
@@ -182,10 +184,8 @@ public class MainLanding extends Activity
 
 			if( null == rates && option.equalsIgnoreCase( "Call Advisor" ) )
 			{
-
-				String url = "http://dry-dusk-8611.herokuapp.com/rates";
 				progress.show();
-				client.get( getApplicationContext(), url, new AsyncHttpResponseHandler()
+				client.get( getApplicationContext(), Constants.URL_BASE + "/rates", new AsyncHttpResponseHandler()
 				{
 					@Override
 					public void onSuccess( String response )

@@ -214,7 +214,7 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 			BigDecimal amount = database.getAvailableMinutes();
 			BigDecimal rate = new BigDecimal( rates ).setScale( 5, BigDecimal.ROUND_FLOOR );
 
-			//amountToCharge = rate;
+			// amountToCharge = rate;
 
 			for( int i = 0; i < minutes; i++ )
 			{
@@ -238,7 +238,7 @@ public class PhoneHelper implements Twilio.InitListener, ConnectionListener
 			String options = "/amountcharged/" + URLEncoder.encode( emailId, "UTF-8" ) + "/" + URLEncoder.encode( amountToCharge.toString(), "UTF-8" ) + "/"
 					+ URLEncoder.encode( "1", "UTF-8" ) + "/" + URLEncoder.encode( rates, "UTF-8" );
 
-			client.get( this.context, "http://dry-dusk-8611.herokuapp.com" + options, new AsyncHttpResponseHandler()
+			client.get( this.context, Constants.URL_BASE + options, new AsyncHttpResponseHandler()
 			{
 				@Override
 				public void onSuccess( String response )

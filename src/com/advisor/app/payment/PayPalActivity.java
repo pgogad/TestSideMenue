@@ -39,7 +39,7 @@ import com.paypal.android.sdk.payments.PaymentConfirmation;
 public class PayPalActivity extends Activity
 {
 	private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_SANDBOX;
-	private static final String CONFIG_CLIENT_ID = "AboZuBA-iaS7l3ii-ZyDTdkEdO5Eas9BCycr_HTiZ1-uTjICrUVs4mWARVG7";
+	private static final String CONFIG_CLIENT_ID = "AbPKVUkQacFr0HZasG2TJ2qpLspFC84I5yEeCPOvxGJTsO-3fs4rkEJZt_MqLwpaE55cw-URgM1fYyvx";
 	//private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_PRODUCTION;
 	//private static final String CONFIG_CLIENT_ID ="AfHAbBCjL5pMP4LNlD3FdvhUsRuD3vPK42MnGowUXEUNdIGBzkNdHmkNCCSN";
 	private static final int REQUEST_CODE_PAYMENT = 1;
@@ -159,7 +159,7 @@ public class PayPalActivity extends Activity
 						if( !sharedPrefStrings[Constants.SP_AMOUNT].equals( Constants.SP_BLANK )
 								&& !sharedPrefStrings[Constants.SP_TRANS_EMAIL].equals( Constants.SP_BLANK ) )
 						{
-							url = "http://dry-dusk-8611.herokuapp.com/paypalapproval/" + URLEncoder.encode( sharedPrefStrings[Constants.SP_APPROVAL], "UTF-8" )
+							url = Constants.URL_BASE + "/paypalapproval/" + URLEncoder.encode( sharedPrefStrings[Constants.SP_APPROVAL], "UTF-8" )
 									+ "/" + URLEncoder.encode( sharedPrefStrings[Constants.SP_TRANS_EMAIL], "UTF-8" ) + "/"
 									+ URLEncoder.encode( sharedPrefStrings[Constants.SP_AMOUNT], "UTF-8" ) + "/"
 									+ URLEncoder.encode( sharedPrefStrings[Constants.SP_DATE], "UTF-8" );
@@ -187,7 +187,7 @@ public class PayPalActivity extends Activity
 						dataBase.insertRecord( bd.setScale( 5, BigDecimal.ROUND_FLOOR ).toString(), Long.valueOf( "0" ).longValue(), Long.valueOf( "0" )
 								.longValue() );
 
-						url = "http://dry-dusk-8611.herokuapp.com/paypalapproval/" + URLEncoder.encode( confirm.toJSONObject().toString(), "UTF-8" ) + "/"
+						url = Constants.URL_BASE + "/paypalapproval/" + URLEncoder.encode( confirm.toJSONObject().toString(), "UTF-8" ) + "/"
 								+ URLEncoder.encode( sharedPrefStrings[Constants.SP_EMAIL], "UTF-8" ) + "/"
 								+ URLEncoder.encode( total.setScale( 5, BigDecimal.ROUND_FLOOR ).toString(), "UTF-8" ) + "/"
 								+ URLEncoder.encode( date, "UTF-8" );

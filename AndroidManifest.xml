@@ -35,7 +35,7 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>
             -->
         </activity>
         <activity
@@ -52,6 +52,9 @@
             android:label="@string/siane"
             android:parentActivityName="com.advisor.app.MainLanding" />
         -->
+        <activity
+            android:name="com.advisor.app.MainListView"
+            android:label="@string/siane" />
         <activity
             android:name="com.advisor.app.login.SigninActivity"
             android:label="@string/siane"

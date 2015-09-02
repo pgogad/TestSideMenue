@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.advisor.app.phone.Constants;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -32,7 +33,8 @@ public class SplashScreen extends Activity
 		try
 		{
 			progress.show();
-			client.get( this.getApplicationContext(), "http://dry-dusk-8611.herokuapp.com/ping", new AsyncHttpResponseHandler()
+			client.addHeader( "Content-Type", "application/json" );
+			client.get( this.getApplicationContext(), Constants.URL_BASE + "/ping", new AsyncHttpResponseHandler()
 			{
 				@Override
 				public void onSuccess( String response )
@@ -40,6 +42,7 @@ public class SplashScreen extends Activity
 					progress.dismiss();
 					Log.d( "SplasgScerrn", "onSuccess: " + response );
 					Intent mainIntent = new Intent( SplashScreen.this, MainLanding.class );
+					//Intent mainIntent = new Intent( SplashScreen.this, MainListView.class );
 					SplashScreen.this.startActivity( mainIntent );
 					SplashScreen.this.finish();
 					overridePendingTransition( R.anim.slide_in, R.anim.slide_out );

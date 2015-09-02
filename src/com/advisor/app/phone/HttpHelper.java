@@ -92,7 +92,7 @@ public class HttpHelper
 	{
 		try
 		{
-			return httpGet( "http://dry-dusk-8611.herokuapp.com/rest/" + URLEncoder.encode( String.valueOf( minutes ), "UTF-8" ) );
+			return httpGet( "http://dry-dusk-8611.herokuapp.com/client" );
 		}
 		catch( Exception ex )
 		{
@@ -106,7 +106,7 @@ public class HttpHelper
 		try
 		{
 			HttpURLConnection urlConnection = null;
-			URL urlToRequest = new URL( "http://dry-dusk-8611.herokuapp.com/rates" );
+			URL urlToRequest = new URL( Constants.URL_BASE + "/rates" );
 			urlConnection = (HttpURLConnection) urlToRequest.openConnection();
 			urlConnection.setConnectTimeout( 1000 * 20 );
 			urlConnection.setRequestMethod( "GET" );
