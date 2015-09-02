@@ -69,7 +69,7 @@ public class MainLanding extends Activity
 				"\n\nIntuitive coaching focuses on helping clients on a deeply personal level. As an Advisor, "
 						+ "my goal is to help you believe in yourself. And at times, help you find yourself again.\n\n" )
 				.append(
-						"My attention will be to help you balance your life goals, motivate you to be confident and self assured.  From the simplest task to the most complicated, "
+						"My attention will be on helping you balance your life goals, motivate you to be confident and self assured.  From the simplest task to the most complicated, "
 								+ "I am here to advise you at the level you need me to be. I often use my psychic ability, along with empathy and intuition, "
 								+ "to help you carve out a better future.\n\n" )
 				.append( "As your Advisor, I am fully present. We can build your personal toolkit. We can design it any way you’d like. "
